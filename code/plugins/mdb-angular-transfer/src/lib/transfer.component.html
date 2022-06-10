@@ -1,0 +1,35 @@
+  <mdb-transfer-container 
+    #transferSourceContainer
+    [dataType]="'source'"
+    class="transfer-source-container transfer-container"
+    [data]="dataSource"
+    [pagination]="pagination"
+    [elementsPerPage]="elementsPerPage"
+    [search]="search"
+    (onSearchOutput)="onSearch.emit()"
+    (onSelect)="onSelect.emit()"
+  ></mdb-transfer-container>
+  <div class="transfer-arrows-container transfer-container">
+    <button 
+      class="btn btn-primary transfer-arrows-arrow"
+      (click)="transferData('source')"
+      [attr.disabled]="oneWay ? 'true' : null"
+    >
+      &lt;
+    </button>
+    <button
+      class="btn btn-primary transfer-arrows-arrow"
+      (click)="transferData('target')"
+    >
+      &gt;
+    </button>
+  </div>
+  <mdb-transfer-container
+    #transferTargetContainer
+    [dataType]="'target'"
+    class="transfer-target-container transfer-container"
+    [data]="dataTarget"
+    [pagination]="pagination"
+    [elementsPerPage]="elementsPerPage"
+    [search]="search"
+  ></mdb-transfer-container>

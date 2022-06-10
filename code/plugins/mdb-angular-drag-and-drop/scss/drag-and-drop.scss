@@ -1,0 +1,16 @@
+.draggable {
+  user-select: none;
+  transition: box-shadow 0.5s;
+}
+
+.draggable-animating {
+  transition: transform 350ms ease;
+}
+
+.draggable-dragging {
+  cursor: move;
+}
+
+.draggable-disabled {
+  cursor: default;
+}

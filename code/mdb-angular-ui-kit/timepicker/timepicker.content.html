@@ -1,0 +1,251 @@
+<div
+  [@fadeInOutTimepicker]="_contentAnimationState"
+  (@fadeInOutTimepicker.done)="_onAnimationDone($event)"
+  class="d-flex align-items-center justify-content-center flex-column shadow timepicker-container"
+  cdkTrapFocus
+>
+  <div
+    class="d-flex flex-column timepicker-elements justify-content-around"
+    [ngClass]="{'timepicker-elements-inline': inline }"
+  >
+    <!-- HEADER -->
+    <div
+      class="timepicker-head d-flex flex-row align-items-center justify-content-center"
+      [ngClass]="{'timepicker-head-inline': inline }"
+      style="padding-right: 0px"
+    >
+      <div
+        class="timepicker-head-content d-flex w-100 justify-content-evenly"
+        [ngClass]="{'align-items-center': inline }"
+      >
+        <!-- TIME -->
+        <div class="timepicker-current-wrapper">
+          <span
+            (click)="_showHoursClock()"
+            (keydown.arrowdown)="_arrowChangeHour($any($event).key)"
+            (keydown.arrowup)="_arrowChangeHour($any($event).key)"
+            (keydown.enter)="_showHoursClock()"
+            [ngClass]="{'timepicker-inline-hour-icons': inline }"
+            class="position-relative h-100"
+            #focus
+            tabindex="0"
+          >
+            <button
+              *ngIf="!inline"
+              type="button"
+              class="timepicker-current timepicker-hour"
+              [ngClass]="{ active: _showHours }"
+            >
+              {{ _selectedTime.h }}
+            </button>
+            <i
+              (click)="_arrowChangeHour('ArrowUp')"
+              (keydown.enter)="_arrowChangeHour('ArrowUp')"
+              *ngIf="inline"
+              class="
+                fas
+                fa-chevron-up
+                position-absolute
+                text-white
+                timepicker-icon-up timepicker-icon-inline-hour
+              "
+            ></i>
+            <button
+              *ngIf="inline"
+              type="button"
+              class="timepicker-current timepicker-hour timepicker-current-inline"
+              tabindex="0"
+              [ngClass]="{ active: _showHours }"
+            >
+              {{ _selectedTime.h }}
+            </button>
+            <i
+              (click)="_arrowChangeHour('ArrowDown')"
+              (keydown.enter)="_arrowChangeHour('ArrowDown')"
+              *ngIf="inline"
+              class="
+                fas
+                fa-chevron-down
+                position-absolute
+                text-white
+                timepicker-icon-down timepicker-icon-inline-hour
+              "
+            ></i>
+          </span>
+          <button
+            type="button"
+            class="timepicker-dot"
+            disabled
+            [ngClass]="{'timepicker-current-inline': inline }"
+          >
+            :
+          </button>
+          <span
+            (click)="_showMinutesClock()"
+            (keydown.arrowdown)="_arrowChangeMinute($any($event).key)"
+            (keydown.arrowup)="_arrowChangeMinute($any($event).key)"
+            (keydown.enter)="_showMinutesClock()"
+            [ngClass]="{'disabled': _minuteDigitalDisabled, 'timepicker-inline-minutes-icons': inline }"
+            class="position-relative h-100"
+            #digitalMinute
+            tabindex="0"
+          >
+            <button
+              *ngIf="!inline"
+              type="button"
+              class="timepicker-current timepicker-minute"
+              [ngClass]="{ 'active': !_showHours, 'timepicker-inline-minutes-icons': inline }"
+            >
+              {{ _selectedTime.m }}
+            </button>
+            <i
+              (click)="_arrowChangeMinute('ArrowUp')"
+              (keydown.enter)="_arrowChangeMinute('ArrowUp')"
+              *ngIf="inline"
+              class="
+                fas
+                fa-chevron-up
+                position-absolute
+                text-white
+                timepicker-icon-up timepicker-icon-inline-minute
+              "
+            ></i>
+            <button
+              *ngIf="inline"
+              type="button"
+              class="timepicker-current timepicker-minute timepicker-current-inline"
+              tabindex="0"
+              [ngClass]="{ active: !_showHours }"
+            >
+              {{ _selectedTime.m }}
+            </button>
+            <i
+              (click)="_arrowChangeMinute('ArrowDown')"
+              (keydown.enter)="_arrowChangeMinute('ArrowDown')"
+              *ngIf="inline"
+              class="
+                fas
+                fa-chevron-down
+                position-absolute
+                text-white
+                timepicker-icon-down timepicker-icon-inline-minute
+              "
+            ></i>
+          </span>
+        </div>
+        <div
+          class="d-flex justify-content-center timepicker-mode-wrapper"
+          [ngClass]="{'flex-column': !inline}"
+        >
+          <button
+            type="button"
+            (click)="_setAmPm('AM')"
+            (keydown.enter)="_setAmPm('AM')"
+            [ngClass]="{ active: _selectedTime.ampm === 'AM', 'me-2 ms-4': inline }"
+            tabindex="0"
+            class="timepicker-hour-mode timepicker-am"
+            *ngIf="format12 && !format24"
+          >
+            {{options.amLabel}}
+          </button>
+          <button
+            type="button"
+            (click)="_setAmPm('PM')"
+            (keydown.enter)="_setAmPm('PM')"
+            [ngClass]="{ active: _selectedTime.ampm === 'PM' }"
+            tabindex="0"
+            class="timepicker-hour-mode timepicker-pm"
+            *ngIf="format12 && !format24"
+          >
+            {{options.pmLabel}}
+          </button>
+          <button
+            *ngIf="inline"
+            type="button"
+            class="timepicker-button timepicker-submit timepicker-submit-inline py-1 px-2 mb-0"
+            tabindex="0"
+            (click)="_okBtnClicked()"
+            [ngClass]="{ disabled: _okButtonDisabled }"
+            type="button"
+          >
+            {{ options.okLabel }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- /Header -->
+    <!-- Body -->
+    <div
+      *ngIf="!inline"
+      class="timepicker-clock-wrapper d-flex justify-content-center flex-column align-items-center"
+    >
+      <div class="position-relative d-flex justify-content-center align-items-center" #plate>
+        <div class="timepicker-canvas">
+          <svg class="timepicker-svg" width="270" height="270" #svg>
+            <g transform="translate(140,140)" #g>
+              <line class="timepicker-hand-pointer" x1="0" y1="0" x2="0" y2="-90" #hand></line>
+              <circle class="timepicker-canvas-fg" r="5" cx="0" cy="-110" #fg></circle>
+              <circle class="timepicker-canvas-bg" r="16" cx="0" cy="-110" #bg></circle>
+              <circle class="timepicker-canvas-bearing" cx="0" cy="0" r="2" #bearing></circle>
+            </g>
+          </svg>
+        </div>
+
+        <div
+          [ngClass]="{ 'timepicker-dial-out': !_showHours }"
+          [ngStyle]="{ visibility: !_showHours ? 'hidden' : 'visible' }"
+          *ngIf="_showHours"
+          #hoursPlate
+          class="timepicker-clock"
+        >
+          <div
+            [ngClass]="{ disabled: tick.disabled, 'active': tick.hour === _selectedTime.h || 0 + tick.hour === _selectedTime.h}"
+            [ngStyle]="{ left: tick.left + 'px', top: tick.top + 'px' }"
+            *ngFor="let tick of _hoursTicks"
+            class="timepicker-time-tips-hours"
+            id="{{ tick.hour }}"
+          >
+            {{ tick.hour }}
+          </div>
+        </div>
+        <div
+          [ngClass]="{ 'timepicker-dial-out': _showHours }"
+          [ngStyle]="{ visibility: _showHours ? 'hidden' : 'visible' }"
+          *ngIf="!_showHours"
+          #minutesPlate
+          class="timepicker-clock"
+        >
+          <div
+            [ngClass]="{ disabled: tick.disabled, 'active': tick.min === _selectedTime.m }"
+            [ngStyle]="{ left: tick.left + 'px', top: tick.top + 'px' }"
+            *ngFor="let tick of _minutesTicks"
+            class="timepicker-time-tips-minutes"
+          >
+            {{ tick.min }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Boody -->
+  </div>
+  <!-- Footer -->
+  <div *ngIf="!inline" class="timepicker-footer">
+    <div class="w-100 d-flex justify-content-between">
+      <button (click)="_clearBtnClicked()" class="timepicker-button timepicker-clear" type="button">
+        {{ options.clearLabel }}
+      </button>
+      <button (click)="_closeBtnClicked()" class="timepicker-button timepicker-close" type="button">
+        {{ options.cancelLabel }}
+      </button>
+      <button
+        (click)="_okBtnClicked()"
+        [ngClass]="{ disabled: _okButtonDisabled }"
+        class="timepicker-button timepicker-ok"
+        type="button"
+      >
+        {{ options.okLabel }}
+      </button>
+    </div>
+  </div>
+  <!-- /Footer -->
+</div>

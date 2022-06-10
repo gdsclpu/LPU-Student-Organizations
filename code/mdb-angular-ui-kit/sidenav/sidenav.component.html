@@ -1,0 +1,15 @@
+<ng-container *ngIf="scrollContainer">
+  <nav #sidenav class="sidenav" [ngClass]="{'show': !hidden}">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </nav>
+</ng-container>
+
+<ng-container *ngIf="!scrollContainer">
+  <nav #sidenav class="sidenav" mdbScrollbar [ngClass]="{'show': !hidden}">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </nav>
+</ng-container>
+
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>

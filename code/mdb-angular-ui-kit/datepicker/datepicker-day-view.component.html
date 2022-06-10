@@ -1,0 +1,33 @@
+<table class="datepicker-table">
+  <thead>
+    <tr>
+      <th class="datepicker-day-heading" scope="col" *ngFor="let day of weekdays">
+        {{ day }}
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    #datesContainer
+    class="datepicker-table-body"
+    (keydown)="_handleDaysViewKeydown($event)"
+    [tabindex]="0"
+  >
+    <tr *ngFor="let date of dates">
+      <td
+        class="datepicker-cell datepicker-small-cell datepicker-day-cell"
+        [class.selected]="_isSameDate(day.date, selectedDate)"
+        [class.focused]="_isSameDate(day.date, activeDate)"
+        [class.disabled]="day.disabled || !day.currentMonth"
+        [class.current]="day.isToday"
+        [attr.aria-selected]="day.isSelected"
+        [attr.aria-label]="day.date"
+        *ngFor="let day of date"
+        (click)="_selectDate(day.date); $event.stopPropagation()"
+      >
+        <div class="datepicker-cell-content datepicker-small-cell-content" *ngIf="day.currentMonth">
+          {{ day.dayNumber }}
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

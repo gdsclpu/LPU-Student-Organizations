@@ -1,0 +1,89 @@
+<!-- child nodes -->
+<ng-template #tree let-nodeChildren let-idx="idx" let-disabled="disabled">
+  <li
+    #activeElement
+    *ngFor="let node of nodeChildren; let n = index;"
+    role="tree-item"
+    [ngClass]="{'treeview-category': !node[childrenField], 'treeview-disabled': (node.disabled || disabled) && !node[childrenField]}"
+    (click)="setActive($event.currentTarget, node[childrenField])"
+  >
+    <ng-container *ngIf="!node[childrenField]">
+      <ng-container *ngIf="selectable" >
+        <ng-container *ngTemplateOutlet="checkboxTemplate; context: { $implicit: node, idx: idx + '_' + n, disabled: node.disabled || disabled}"></ng-container>
+      </ng-container>
+      <ng-container *ngIf="!selectable">
+        <i
+          *ngIf="node.icon"
+          [ngClass]="node.icon"
+          [ngStyle]="{'transform': node.collapsed === false ? 'rotate(' + rotationAngle + 'deg)' : 'rotate(0deg)'}"
+        ></i>
+        {{ node[textField] }}
+      </ng-container>
+    </ng-container>
+    <a 
+      #activeElement
+      *ngIf="node[childrenField] && node[childrenField].length > 0"
+      class="treeview-category"
+      role="button"
+      [ngClass]="{'d-flex': selectable, 'treeview-disabled': node.disabled || disabled }"
+      (click)="node.collapsed = node.collapsed === undefined ? false : !node.collapsed; setActive($event.currentTarget, false)"
+    >
+      <span aria-label="toggle">
+        <i
+          tabindex="1"
+          [ngClass]="node.icon ? !selectable? node.icon : '' : 'fas fa-angle-right'"
+          [ngStyle]="{'transform': node.collapsed === false ? 'rotate(' + rotationAngle + 'deg)' : 'rotate(0deg)'}"
+          class="mx-1"
+        ></i>
+      </span>
+      <ng-container *ngIf="selectable" >
+        <ng-container *ngTemplateOutlet="checkboxTemplate; context: { $implicit: node, idx: idx + '_' + n, disabled: node.disabled || disabled }"></ng-container>
+      </ng-container>
+      <ng-container *ngIf="!selectable">
+        {{ node[textField] }}
+      </ng-container>
+    </a>
+    <ul 
+      id="collapse-{{node.expandId}}-{{idx + '_' + n}}"
+      mdbCollapse
+      [collapsed]="node.collapsed === false ? false : true"
+      role="tree"
+      [ngClass]="{'treeview-line': line}"
+    >
+      <ng-container *ngTemplateOutlet="tree; context: { $implicit: node[childrenField], idx: idx + '_' + n, disabled: node.disabled || disabled }"></ng-container>
+    </ul>
+  </li>
+</ng-template>
+
+<!-- selectable -->
+<ng-template #checkboxTemplate let-node let-idx="idx" let-disabled="disabled">
+  <div class="form-check">
+    <input
+      mdbCheckbox
+      class="form-check-input"
+      type="checkbox"
+      value=""
+      id="{{generateUid() + idx}}"
+      [disabled]="disabled"
+      (click)="_handleCheckboxClick($event.target, $event.target.checked, node); $event.stopPropagation()"
+      (change)="_checkboxChange($event.target, node)"
+      [checked]="node[checkedField]"
+    />
+    <label class="form-check-label" for="{{generateUid() + idx}}">
+      <i
+        *ngIf="node.icon"
+        [ngClass]="node.icon"
+        [ngStyle]="{'transform': node.collapsed === false ? 'rotate(' + rotationAngle + 'deg)' : 'rotate(0deg)'}"
+        ></i>
+      {{ node[textField] }}
+    </label>
+  </div>
+</ng-template>
+
+<!-- first nodes -->
+<div class="treeview treeview-{{color}}">
+  <ul role="tree">
+    <ng-container *ngTemplateOutlet="tree; context: { $implicit: nodes, idx: 1 }"></ng-container>
+  </ul>
+</div>
+

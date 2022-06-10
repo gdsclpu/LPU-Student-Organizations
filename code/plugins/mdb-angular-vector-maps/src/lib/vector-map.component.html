@@ -1,0 +1,103 @@
+<div #wrapper class="vector-map">
+  <svg
+    [attr.viewBox]="_mapViewBox || viewBox"
+    [style.fill]="fill"
+    [style.fillOpacity]="fillOpacity"
+    [style.stroke]="stroke"
+    [style.strokeWidth]="strokeWidth"
+    [style.strokeOpacity]="strokeOpacity"
+    [style.strokeLinejoin]="strokeLinejoin"
+    #svgElement
+  >
+    <g #mapContentTemplate></g>
+
+    <g class="vector-map-marker" *ngFor="let pin of _pins" [mdbTooltip]="pin.label">
+      <circle
+        class="pin-shadow-circle"
+        [attr.cx]="pin.x"
+        [attr.cy]="pin.y"
+        [attr.strokeWidth]="pin.strokeWidth"
+        [attr.fill]="pin.circleFill"
+        [attr.r]="pin.radius"
+        (click)="_emitMarkerClick(pin.type, pin.x, pin.y, pin.label)"
+      ></circle>
+      <path
+        [attr.d]="pin.d"
+        [attr.fill]="pin.fill"
+        [attr.stroke]="pin.stroke"
+        [attr.strokeWidth]="pin.strokeWidth"
+      ></path>
+      <circle
+        class="pin-inner-circle"
+        [attr.cx]="pin.x"
+        [attr.cy]="pin.innerY"
+        [attr.stroke]="pin.stroke"
+        [attr.strokeWidth]="pin.strokeWidth"
+        [attr.r]="pin.innerRadius"
+        [attr.fill]="pin.innerFill"
+      ></circle>
+    </g>
+    <ng-container *ngFor="let bullet of _bullets">
+      <circle
+        [attr.cx]="bullet.x"
+        [attr.cy]="bullet.y"
+        [attr.r]="bullet.radius / _scale"
+        [attr.fill]="bullet.fill"
+        [attr.stroke-width]="bullet.strokeWidth"
+        [attr.opacity]="bullet.opacity"
+        class="animated-circle"
+      >
+        <animate
+          [attr.attributeName]="'r'"
+          [attr.values]="_getAnimateValue(bullet.radius)"
+          [attr.dur]="'1.5s'"
+          [attr.repeatCount]="'indefinite'"
+        ></animate>
+        <animate
+          [attr.attributeName]="'opacity'"
+          [attr.values]="'0;0.3;0'"
+          [attr.dur]="'1.5s'"
+          [attr.repeatCount]="'indefinite'"
+        ></animate>
+      </circle>
+      <circle
+        [mdbTooltip]="bullet.label"
+        [attr.cx]="bullet.x"
+        [attr.cy]="bullet.y"
+        [attr.r]="bullet.radius / _scale"
+        [attr.fill]="bullet.fill"
+        [attr.stroke-width]="bullet.strokeWidth"
+        [attr.opacity]="bullet.innerOpacity"
+        (click)="_emitMarkerClick(bullet.type, bullet.x, bullet.y, bullet.label)"
+        class="vector-map-marker"
+      ></circle>
+    </ng-container>
+  </svg>
+  <div class="vector-map-toolbar">
+    <button
+      class="btn btn-floating {{ btnClass }}"
+      [attr.aria-label]="'Zoom in'"
+      style="min-width: 37px"
+      [disabled]="_zoomInButtonDisabled"
+      (click)="_zoom(zoomStep)"
+    >
+      <i class="fa fa-plus"></i>
+    </button>
+    <button
+      class="btn btn-floating {{ btnClass }}"
+      [attr.aria-label]="'Zoom out'"
+      style="min-width: 37px"
+      [disabled]="_zoomOutButtonDisabled"
+      (click)="_zoom(-1 * zoomStep)"
+    >
+      <i class="fa fa-minus"></i>
+    </button>
+  </div>
+
+  <ng-template #tooltipTemplate>
+    <div class="vector-map-tooltip" style="pointer-events: none;">
+      <strong>{{ _currentTooltipTitle }}</strong>
+      <div *ngIf="_currentTooltipContent" [innerHTML]="_currentTooltipContent"></div>
+    </div>
+  </ng-template>
+</div>

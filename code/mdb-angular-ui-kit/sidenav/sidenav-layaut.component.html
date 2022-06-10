@@ -1,0 +1,9 @@
+<ng-content></ng-content>
+<div
+  #backdrop
+  class="sidenav-backdrop"
+  ngClass="{{ _sidenav.backdropClass }}"
+  (click)="onBackdropClick()"
+  [ngStyle]="backdropStyle"
+  *ngIf="showBackdrop && _sidenav.backdrop"
+></div>

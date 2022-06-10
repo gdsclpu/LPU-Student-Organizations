@@ -1,0 +1,160 @@
+.calendar {
+  font-size: 0.9rem;
+  .calendar-tools {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    .calendar-heading {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+    @media (max-width: 992px) {
+      flex-direction: column;
+      .calendar-heading {
+        text-align: center;
+        order: -1;
+      }
+      > .btn-group {
+        transform: scale(0.9);
+      }
+    }
+  }
+  table {
+    table-layout: fixed;
+    border: 1px solid #dddddd;
+    width: 100%;
+    thead th {
+      background-color: #fbfbfb;
+    }
+    th {
+      text-align: center;
+      border: 1px solid #dddddd;
+    }
+    .long-event-row {
+      height: 100px;
+    }
+    td {
+      border: 1px solid #dddddd;
+      position: relative;
+      vertical-align: top;
+      &.today {
+        background-color: #e9e9e9;
+      }
+      &:hover,
+      &:active,
+      &.active {
+        background-color: #fafafa;
+      }
+      &.dragenter {
+        border: 2px dashed black;
+      }
+      &.disabled {
+        color: #9a9a9a;
+      }
+      .day-field {
+        position: absolute;
+        right: 5px;
+        top: 0;
+        font-size: 0.8rem;
+        &::selection {
+          background-color: transparent;
+        }
+      }
+    }
+    &.month {
+      min-height: 700px;
+      td {
+        padding-top: 20px;
+      }
+    }
+    &.list {
+      th {
+        text-align: left;
+        padding: 5px 10px;
+        background-color: #eeeeee;
+      }
+      td {
+        padding: 5px 10px;
+        cursor: pointer;
+        &.td-readonly {
+          cursor: default;
+        }
+      }
+    }
+    .events-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      width: calc(100% + 3px);
+      margin-left: -1px;
+    }
+    .event {
+      padding: 1px 5px;
+      background-color: #1266f1;
+      color: white;
+      font-size: 0.7rem;
+      width: 100%;
+      margin-bottom: 2px;
+      margin-left: 2px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      &.event-readonly {
+        cursor: default;
+      }
+      &.event-long {
+        margin-left: 0;
+      }
+      &::selection {
+        background-color: transparent;
+      }
+      &.event-short {
+        background-color: transparent;
+        color: black;
+      }
+      &.active {
+        opacity: 0.6;
+      }
+      &.dragging {
+        opacity: 0.1;
+      }
+      .event-circle {
+        pointer-events: none;
+      }
+    }
+    .fake-event {
+      padding: 1px 5px;
+      font-size: 0.7rem;
+      width: 100%;
+      margin-bottom: 2px;
+      visibility: hidden;
+    }
+    .hour-field::selection {
+      background-color: transparent;
+    }
+  }
+}
+
+.was-validated .form-outline .form-control.calendar-invalid-input {
+  margin-bottom: 0;
+  border-color: #00b74a;
+  & ~ .form-notch .form-notch-leading,
+  & ~ .form-notch .form-notch-middle,
+  & ~ .form-notch .form-notch-trailing {
+    border-color: #00b74a;
+  }
+  & ~ .form-label {
+    color: #00b74a;
+  }
+}
+
+.was-validated .form-outline .form-control.calendar-invalid-input {
+  margin-bottom: 0;
+  border-color: #f93154;
+  & ~ .form-notch .form-notch-leading,
+  & ~ .form-notch .form-notch-middle,
+  & ~ .form-notch .form-notch-trailing {
+    border-color: #f93154;
+  }
+  & ~ .form-label {
+    color: #f93154;
+  }
+}

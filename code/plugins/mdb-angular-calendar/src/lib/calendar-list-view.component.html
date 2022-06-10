@@ -1,0 +1,47 @@
+<table class="list">
+  <thead>
+    <tr></tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="!listView.eventsInPeriod.length">
+      <th>{{ options.noEventsCaption}}</th>
+    </tr>
+    <ng-container *ngFor="let event of listView.eventsInPeriod">
+      <tr>
+        <th [ngSwitch]="true">
+          <ng-container *ngSwitchCase="event.allDay && event.oneDay">
+            {{ twelveHours ? convertDateTo12hFormat(event.startData.string) : event.startData.string }}
+          </ng-container>
+          <ng-container *ngSwitchCase="!event.allDay && !event.oneDay && event.startData.string !== event.endData.string">
+            {{ twelveHours ? convertDateTo12hFormat(event.startData.string) : event.startData.string }} 
+            - 
+            {{ twelveHours ? convertDateTo12hFormat(event.endData.string) : event.endData.string }} 
+          </ng-container>
+          <ng-container *ngSwitchCase="event.allDay && event.longEvent">
+            {{ twelveHours ? convertDateTo12hFormat(event.startData.string) : event.startData.string }}
+            - 
+            {{ twelveHours ? convertDateTo12hFormat(event.endData.string) : event.endData.string }}
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{ event.startData.day }}/{{ event.startData.month }}/{{ event.startData.year }}
+            <br>
+            {{ twelveHours ? convertTimeTo12hFormat(event.startData.time) : event.startData.time }} 
+            - 
+            {{ twelveHours ? convertTimeTo12hFormat(event.endData.time) : event.endData.time}} 
+          </ng-container>
+        </th>
+      </tr>
+      <tr>
+        <td (click)="onEventClick(event)">
+          <i class="pe-2 fas fa-circle text-{{ event.color.background}}"></i>
+          <strong>{{ event.summary }}</strong>
+          <p class="mb-0" *ngIf="event.description">
+            <small>
+              {{ event.description }}
+            </small>
+          </p>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

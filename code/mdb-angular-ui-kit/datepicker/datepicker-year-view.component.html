@@ -1,0 +1,25 @@
+<table class="datepicker-table">
+  <tbody
+    #yearsContainer
+    class="datepicker-table-body"
+    (keydown)="_handleYearsViewKeydown($event)"
+    [tabindex]="0"
+  >
+    <tr *ngFor="let yearsRow of years">
+      <td
+        class="datepicker-cell datepicker-large-cell datepicker-year-cell"
+        [class.disabled]="year.disabled"
+        [class.selected]="year.name === selectedYear"
+        [class.current]="year.current"
+        [class.focused]="isActive(year.name)"
+        [attr.aria-label]="year.name"
+        *ngFor="let year of yearsRow"
+        (click)="_selectYear(year.name); $event.stopPropagation()"
+      >
+        <div class="datepicker-cell-content datepicker-large-cell-content">
+          {{ year.name }}
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

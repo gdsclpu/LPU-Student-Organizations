@@ -1,0 +1,62 @@
+.wysiwyg-textarea {
+  width: 0px;
+  height: 0px;
+  visibility: hidden;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.wysiwyg-content {
+  min-height: 450px;
+  &:focus {
+    outline: none;
+  }
+  &.wysiwyg-show-html {
+    white-space: pre-line;
+  }
+}
+
+.wysiwyg-toolbar {
+  background-color: #fafafa;
+  padding: 0.3rem 0 0.3rem 0;
+}
+
+.wysiwyg-toolbar-group {
+  &:not(:first-child):not(.ml-auto):before {
+    content: '';
+    position: absolute;
+    height: 1.2rem;
+    width: 0;
+    border-right: 1px solid #bcbcbc;
+    margin-top: 0.4rem;
+  }
+}
+
+.btn.wysiwyg-btn {
+  min-width: 32px;
+  min-height: 32px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.btn.wysiwyg-btn.dropdown-toggle {
+  min-width: 37px;
+}
+
+.wysiwyg-color {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 0;
+  padding: 0;
+}
+
+.wysiwyg-toolbar-toggler .dropdown-menu {
+  .mx-1 {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 0;
+  }
+}

@@ -1,0 +1,229 @@
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+  <div class="modal-header">
+    <h5 class="modal-title" id="{{event.id}}-modal">{{ mode === 'edit' ? options.editEventModalCaption : options.addEventModalCaption }}</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalRef.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <mdb-form-control class="my-3">
+      <input 
+        mdbInput
+        mdbValidate
+        validateSuccess="false"
+        required
+        type="text"
+        id="eventModalSummary"
+        formControlName="summary"
+        class="form-control"
+      />
+      <label mdbLabel class="form-label" for="eventModalSummary">{{ options.summaryCaption }}</label>
+    </mdb-form-control>
+    <mdb-form-control  class="my-3">
+      <textarea mdbInput class="form-control" id="eventModalDescription" rows="2" formControlName="description"></textarea>
+      <label mdbLabel class="form-label" for="eventModalDescription">{{ options.descriptionCaption }}</label>
+    </mdb-form-control>
+    <div class="form-check mx-2">
+      <input
+        mdbCheckbox
+        class="form-check-input"
+        type="checkbox"
+        value=""
+        id="eventModalAllDayCheckbox"
+        formControlName="allDay"
+      />
+      <label class="form-check-label" for="eventModalAllDayCheckbox">
+        {{ options.allDayCaption }}
+      </label>
+    </div>
+    <div class="row my-3">
+      <div [ngClass]="eventForm.value.allDay ? 'col-12' : 'col-6'">
+        <mdb-form-control>
+          <input
+            mdbInput
+            mdbValidate
+            validateSuccess="false"
+            required
+            formControlName="startDate"
+            [mdbDatepicker]="datepickerStartDate"
+            type="text"
+            class="form-control"
+            id="eventModalStartDate"
+          />
+          <label mdbLabel for="eventModalStartDate" class="form-label">{{ options.startCaption }}</label>
+          <mdb-datepicker-toggle [mdbDatepicker]="datepickerStartDate"></mdb-datepicker-toggle>
+          <mdb-datepicker #datepickerStartDate></mdb-datepicker>
+        </mdb-form-control>
+      </div>
+      <div *ngIf="!eventForm.value.allDay" class="col-6">
+        <mdb-form-control>
+          <input
+            mdbInput
+            formControlName="startTime"
+            type="text"
+            id="eventModalStartTime"
+            class="form-control"
+            [mdbTimepicker]="timepickerStartTime"
+            required
+          />
+          <label mdbLabel class="form-label" for="eventModalStartTime">{{ options.startCaption }}</label>
+          <mdb-timepicker-toggle [mdbTimepickerToggle]="timepickerStartTime"></mdb-timepicker-toggle>
+          <mdb-timepicker #timepickerStartTime [format24]="!twelveHours"></mdb-timepicker>
+        </mdb-form-control>
+      </div>
+    </div>
+    <div class="row my-3">
+      <div [ngClass]="eventForm.value.allDay ? 'col-12' : 'col-6'">
+        <mdb-form-control>
+          <input
+            mdbInput
+            mdbValidate
+            validateSuccess="false"
+            required
+            [mdbDatepicker]="datepickerEndDate"
+            type="text"
+            class="form-control"
+            id="eventModalEndDate"
+            formControlName="endDate"
+          />
+          <label mdbLabel for="eventModalEndDate" class="form-label">{{ options.endCaption }}</label>
+          <mdb-datepicker-toggle [mdbDatepicker]="datepickerEndDate"></mdb-datepicker-toggle>
+          <mdb-datepicker #datepickerEndDate></mdb-datepicker>
+        </mdb-form-control>
+      </div>
+      <div *ngIf="!eventForm.value.allDay" class="col-6">
+        <mdb-form-control>
+          <input
+            mdbInput
+            formControlName="endTime"
+            type="text"
+            id="eventModalEndTime"
+            class="form-control"
+            [mdbTimepicker]="timepickerEndTime"
+            required
+          />
+          <label mdbLabel class="form-label" for="eventModalEndTime">{{ options.endCaption }}</label>
+          <mdb-timepicker-toggle [mdbTimepickerToggle]="timepickerEndTime"></mdb-timepicker-toggle>
+          <mdb-timepicker #timepickerEndTime [format24]="!twelveHours"></mdb-timepicker>
+        </mdb-form-control>
+      </div>
+    </div>
+    <div class="text-center mt-3">
+      <div class="form-check form-check-inline">
+        <input
+          mdbRadio
+          class="form-check-input"
+          type="radio"
+          id="eventModalRadioBackgroundPrimary"
+          [checked]="true"
+          value="primary"
+          formControlName="color"
+        />
+        <label class="form-check-label" for="eventModalRadioBackgroundPrimary">
+          <i class="fas fa-circle text-primary"></i>
+        </label>
+      </div>
+      
+      <div class="form-check form-check-inline">
+        <input
+          mdbRadio
+          class="form-check-input"
+          type="radio"
+          id="eventModalRadioBackgroundSecondary"
+          value="secondary"
+          formControlName="color"
+        />
+        <label class="form-check-label" for="eventModalRadioBackgroundSecondary">
+          <i class="fas fa-circle text-secondary"></i>
+        </label>
+      </div>
+      
+      <div class="form-check form-check-inline">
+        <input
+          mdbRadio
+          class="form-check-input"
+          type="radio"
+          id="eventModalRadioBackgroundSuccess"
+          value="success"
+          formControlName="color"
+        />
+        <label class="form-check-label" for="eventModalRadioBackgroundSuccess">
+          <i class="fas fa-circle text-success"></i>
+        </label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          mdbRadio
+          class="form-check-input"
+          type="radio"
+          id="eventModalRadioBackgroundDanger"
+          value="danger"
+          formControlName="color"
+        />
+        <label class="form-check-label" for="eventModalRadioBackgroundDanger">
+          <i class="fas fa-circle text-danger"></i>
+        </label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          mdbRadio
+          class="form-check-input"
+          type="radio"
+          id="eventModalRadioBackgroundWarning"
+          value="warning"
+          formControlName="color"
+        />
+        <label class="form-check-label" for="eventModalRadioBackgroundWarning">
+          <i class="fas fa-circle text-warning"></i>
+        </label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          mdbRadio
+          class="form-check-input"
+          type="radio"
+          id="eventModalRadioBackgroundInfo"
+          value="info"
+          formControlName="color"
+        />
+        <label class="form-check-label" for="eventModalRadioBackgroundInfo">
+          <i class="fas fa-circle text-info"></i>
+        </label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          mdbRadio
+          class="form-check-input"
+          type="radio"
+          id="eventModalRadioBackgroundDark"
+          value="dark"
+          formControlName="color"
+        />
+        <label class="form-check-label" for="eventModalRadioBackgroundDark">
+          <i class="fas fa-circle text-dark"></i>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <ng-container *ngIf="mode !== 'edit'">
+      <button type="button" class="btn btn-danger" (click)="modalRef.close()">
+        {{ options.closeCaption }}
+      </button>
+      <button type="submit" class="btn btn-primary" >{{ options.addCaption }}</button>
+    </ng-container>
+    <ng-container *ngIf="mode === 'edit'">
+      <button type="button" class="btn btn-danger" (click)="onRemoveClick()">
+        {{ options.deleteCaption }}
+      </button>
+      <button type="submit" class="btn btn-primary">{{ options.editCaption }}</button>
+    </ng-container>
+  </div>
+</form>

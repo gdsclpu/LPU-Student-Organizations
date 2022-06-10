@@ -1,0 +1,354 @@
+<div>
+  <textarea id="demo" style="width: 0px; height: 0px; visibility: hidden" cols="30" rows="10"></textarea>
+  <div class="wysiwyg w-100 border">
+    <div 
+      class="wysiwyg-toolbar btn-toolbar"
+      role="toolbar"
+      [ngClass]="{'sticky-top': fixed}"
+      [ngStyle]="{top: fixedOffsetTop + 'px'}"  
+    >
+      <ng-template *ngIf="!toolbarOptions.styles.hidden && toolbarOptionsVisibility.styles then styleTemplate"></ng-template>
+      <ng-template *ngIf="!toolbarOptions.formatting.hidden && toolbarOptionsVisibility.formatting then formatingTemplate"></ng-template>
+      <ng-template *ngIf="!toolbarOptions.align.hidden && toolbarOptionsVisibility.align then alignTemplate"></ng-template>
+      <ng-template *ngIf="!toolbarOptions.lists.hidden && toolbarOptionsVisibility.lists then listsTemplate"></ng-template>
+      <ng-template *ngIf="!toolbarOptions.links.hidden && toolbarOptionsVisibility.links then linksTemplate"></ng-template>
+      <ng-template *ngIf="!toolbarOptions.showCode.hidden && toolbarOptionsVisibility.showCode then showCodeTemplate"></ng-template>
+      <ng-template *ngIf="!toolbarOptions.undoRedo.hidden && toolbarOptionsVisibility.undoRedo then undoRedoTemplate"></ng-template>
+      <ng-template *ngIf="toolbarTogglerVisible then toolbarTogglerTemplate"></ng-template>
+
+    </div>
+    <div 
+      #wysiwygContent
+      class="wysiwyg-content"
+      contenteditable="true"
+      (blur)="getSelection()"
+      [ngClass]="{'wysiwyg-show-html': isCodeShown}"
+    >
+
+    </div>
+  </div>
+</div>
+
+<ng-template #styleTemplate>
+  <div
+    #tools
+    class="wysiwyg-toolbar-group"
+    id="styles"
+  >
+    <div mdbDropdown class=" mx-1 border-0">
+      <button
+        class="btn btn-sm btn-light wysiwyg-btn dropdown-toggle shadow-0"
+        type="button"
+        id="wysiwygTextStyle"
+        aria-expanded="false"
+        mdbDropdownToggle
+        [attr.disabled]="toolbarOptions.styles.disabled ? 'disabled' : null" 
+      >
+        {{ options.textStyle }}
+      </button>
+      <ul mdbDropdownMenu class="dropdown-menu" aria-labelledby="wysiwygTextStyle">
+        <ng-container *ngFor="let style of toolbarStyleItems; let i = index">
+          <li *ngIf="!toolbarOptions.styles[style.selector].hidden">
+            <button 
+              type="button" 
+              class="dropdown-item"
+              (click)="performAction('formatBlock', style.selector)"
+              [attr.disabled]="toolbarOptions.styles[style.selector].disabled || toolbarOptions.styles.disabled ? 'disabled' : null" 
+            >
+              {{ options[style.type] }} {{ style.type === 'heading' ? i : ''}}
+            </button>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #formatingTemplate>
+  <div 
+    #tools
+    class="wysiwyg-toolbar-group"
+    id="formatting"
+  >
+    <div class="mx-1 border-0 btn-group btn-group-sm shadow-0" role="group">
+      <ng-container *ngFor="let format of toolbarTextFormatingItems">
+        <button 
+          (click)="performAction(format.type)"
+          type="button"
+          class="btn btn-light wysiwyg-btn"
+          mdbTooltip="{{ options[format.type] }}"
+          placement="bottom"
+          [attr.disabled]="toolbarOptions.formatting[format.type].disabled || toolbarOptions.formatting.disabled ? 'disabled' : null" 
+          *ngIf="!toolbarOptions.formatting[format.type].hidden"
+        >
+          <i class="{{ format.icon }}"></i>
+        </button> 
+      </ng-container>
+      
+      <div class="btn-group btn-group-sm" role="group">
+        <div mdbDropdown class="mx-0 border-0">
+          <button
+            class="btn btn-sm btn-light wysiwyg-btn dropdown-toggle shadow-0 wysiwyg-color"
+            type="button"
+            id="textColor"
+            aria-expanded="false"
+            mdbDropdownToggle
+            mdbTooltip="{{ options['textcolor'] }}"
+            placement="bottom"
+            [attr.disabled]="toolbarOptions.formatting.textColor.disabled || toolbarOptions.formatting.disabled ? 'disabled' : null" 
+            *ngIf="!toolbarOptions.formatting.textColor.hidden"
+          >
+            <i class="fas fa-font"></i>
+          </button>
+          <ul mdbDropdownMenu class="dropdown-menu" aria-labelledby="textColor" style="max-width: 8rem; min-width: 8rem;">
+            <button
+              *ngFor="let color of colors"
+              (click)="performAction('foreColor', color)"
+              type="button"
+              class="dropdown-item d-inline-block btn btn-link wysiwyg-color border-0 p-0"
+              [ngStyle]="{background: color}"
+            >
+            </button>
+          </ul>
+        </div>
+      </div>
+      <div class="btn-group btn-group-sm" role="group">
+        <div mdbDropdown class=" mx-0 border-0">
+          <button
+            class="btn btn-sm btn-light wysiwyg-btn dropdown-toggle shadow-0 wysiwyg-color"
+            type="button"
+            id="textColor"
+            aria-expanded="false"
+            mdbDropdownToggle
+            mdbTooltip="{{ options['textBackgroundColor'] }}"
+            placement="bottom"
+            [attr.disabled]="toolbarOptions.formatting.textBackground.disabled || toolbarOptions.formatting.disabled ? 'disabled' : null" 
+            *ngIf="!toolbarOptions.formatting.textBackground.hidden"
+          >
+            <i class="fas fa-paint-brush"></i>
+          </button>
+          <ul mdbDropdownMenu class="dropdown-menu" aria-labelledby="textColor" style="max-width: 8rem; min-width: 8rem;">
+            <button
+              *ngFor="let color of colors"
+              (click)="performAction('backColor', color)"
+              type="button"
+              class="dropdown-item d-inline-block btn btn-link wysiwyg-color border-0 p-0"
+              [ngStyle]="{background: color}"
+            >
+            </button>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #alignTemplate>
+  <div 
+    #tools
+    id="align"
+    class="wysiwyg-toolbar-group"
+  >
+    <div class="mx-1 border-0 btn-group btn-group-sm shadow-0" role="group">
+      <ng-container *ngFor="let align of alignItems">
+        <button
+          (click)="performAction(align.type)"
+          type="button"
+          class="btn btn-light wysiwyg-btn"
+          mdbTooltip="{{ options[align.type] }}"
+          placement="bottom"
+          [attr.disabled]="toolbarOptions.align[align.type].disabled || toolbarOptions.align.disabled ? 'disabled' : null" 
+          *ngIf="!toolbarOptions.align[align.type].hidden"
+        >
+          <i class="{{align.icon}}"></i>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #listsTemplate>
+  <div
+    #tools
+    class="wysiwyg-toolbar-group"
+    id="lists"
+  >
+    <div class="mx-1 border-0 btn-group btn-group-sm shadow-0" role="group">
+      <ng-container *ngFor="let list of listItems">
+        <button
+          (click)="performAction(list.type)"
+          type="button"
+          class="btn btn-light wysiwyg-btn"
+          mdbTooltip="{{ options[list.type] }}"
+          placement="bottom"
+          [attr.disabled]="toolbarOptions.lists[list.type].disabled || toolbarOptions.lists.disabled ? 'disabled' : null" 
+          *ngIf="!toolbarOptions.lists[list.type].hidden"
+        >
+          <i class="{{list.icon}}"></i>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #linksTemplate>
+  <div 
+    #tools
+    class="wysiwyg-toolbar-group"
+    id="links"
+  >
+    <div class="mx-1 border-0 btn-group btn-group-sm shadow-0 dropdown" role="group">
+      <div class="btn-group btn-group-sm" role="group">
+        <div (dropdownShow)="onLinkDropdownOpen()" #linkDropdown mdbDropdown class=" mx-0 border-0">
+          <button
+            class="btn btn-sm btn-light wysiwyg-btn dropdown-toggle shadow-0 wysiwyg-btn"
+            type="button"
+            id="textColor"
+            aria-expanded="false"
+            mdbDropdownToggle
+            mdbTooltip="{{ options['insertLink'] }}"
+            placement="bottom"
+            [attr.disabled]="toolbarOptions.links.link.disabled || toolbarOptions.links.disabled ? 'disabled' : null" 
+            *ngIf="!toolbarOptions.links.link.hidden"
+          >
+            <i class="fas fa-paperclip"></i>
+          </button>
+          <ul mdbDropdownMenu class="dropdown-menu" aria-labelledby="textColor">
+            <form [formGroup]="linkForm" class="px-4 py-3">
+              <h5 class="mb-3">{{ options.addLinkHead }}</h5>
+              <mdb-form-control class="mb-4">
+                <input formControlName="url" mdbInput type="url" id="link-url" class="form-control" />
+                <label mdbLabel class="form-label" for="link-url">{{ options.linkUrlLabel }}</label>
+              </mdb-form-control>
+              <mdb-form-control class="mb-4">
+                <input formControlName="description" mdbInput type="text" id="link-description" class="form-control" />
+                <label mdbLabel class="form-label" for="link-description">{{ options.linkDescription }}</label>
+              </mdb-form-control>
+              <div class="d-flex justify-content-end">
+                <button (click)="insertLink()" type="button" class="btn btn-primary">{{ options.okButton }}</button>
+                <button (click)="linkDropdown.hide()" type="button" class="btn btn-primary ms-2">{{ options.cancelButton }}</button>
+              </div>
+            </form>
+          </ul>
+        </div>
+      </div>
+
+      <div class="btn-group btn-group-sm" role="group">
+        <div (dropdownShow)="onImageDropdownOpen()" #imageDropdown mdbDropdown class=" mx-0 border-0">
+          <button
+            class="btn btn-sm btn-light wysiwyg-btn dropdown-toggle shadow-0 wysiwyg-btn"
+            type="button"
+            id="textColor"
+            aria-expanded="false"
+            mdbDropdownToggle
+            mdbTooltip="{{ options['insertPicture'] }}"
+            placement="bottom"
+            [attr.disabled]="toolbarOptions.links.image.disabled || toolbarOptions.links.disabled ? 'disabled' : null" 
+            *ngIf="!toolbarOptions.links.image.hidden"
+          >
+            <i class="far fa-image"></i>
+          </button>
+          <ul mdbDropdownMenu class="dropdown-menu" aria-labelledby="textColor">
+            <form class="px-4 py-3">
+              <h5 class="mb-3">{{ options.addImageHead }}</h5>
+              <mdb-form-control class="mb-4">
+                <input [formControl]="imageForm" mdbInput type="url" id="image-url" class="form-control" />
+                <label mdbLabel class="form-label" for="image-url">{{ options.imageUrlLabel }}</label>
+              </mdb-form-control>
+              <div class="d-flex justify-content-end">
+                <button (click)="insertImage()" type="button" class="btn btn-primary">{{ options.okButton }}</button>
+                <button (click)="imageDropdown.hide()" type="button" class="btn btn-primary ms-2">{{ options.cancelButton }}</button>
+              </div>
+            </form>
+          </ul>
+        </div>
+      </div>
+      <button 
+        (click)="performAction('insertHorizontalRule')"
+        class="btn btn-light wysiwyg-btn"
+        aria-label="Insert Horizontal Line"
+        [attr.disabled]="toolbarOptions.links.insertHorizontalRule.disabled ? 'disabled' : null" 
+        *ngIf="!toolbarOptions.links.insertHorizontalRule.hidden"
+        mdbTooltip="{{ options['insertHorizontalRule'] }}"
+        placement="bottom"
+      >
+        <i class="fas fa-grip-lines"></i>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #showCodeTemplate>
+  <div 
+    #tools
+    class="ms-auto wysiwyg-toolbar-group"
+    id="showCode"
+  >
+    <div class="btn-group mx-1 border-0 btn-group-sm shadow-0" role="group">
+      <button
+        (click)="toggleHtml()"
+        type="button"
+        class="btn btn-sm btn-light wysiwyg-btn shadow-0"
+        aria-label="Show HTML code"
+        [attr.disabled]="toolbarOptions.showCode.disabled ? 'disabled' : null" 
+        mdbTooltip="{{ options['showHTML'] }}"
+        placement="bottom"
+      >
+        <i class="fas fa-code"></i>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #undoRedoTemplate>
+  <div 
+    #tools
+    class="wysiwyg-toolbar-group"
+    id="undoRedo"
+    *ngIf="!toolbarOptions.undoRedo.hidden && toolbarOptionsVisibility.undoRedo"
+  >
+    <div class="btn-group mx-1 border-0 btn-group-sm shadow-0" role="group">
+      <ng-container *ngFor="let undoRedo of undoRedoItems">
+        <button
+          (click)="performAction(undoRedo.type)"
+          type="button"
+          class="btn btn-light wysiwyg-btn"
+          mdbTooltip="{{ options[undoRedo.type] }}"
+          placement="bottom"
+          [attr.disabled]="toolbarOptions.undoRedo[undoRedo.type].disabled || toolbarOptions.undoRedo.disabled ? 'disabled' : null" 
+          *ngIf="!toolbarOptions.undoRedo[undoRedo.type].hidden"
+        >
+          <i class="{{undoRedo.icon}}"></i>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #toolbarTogglerTemplate>
+  <div class="ms-auto wysiwyg-toolbar-group wysiwyg-toolbar-toggler">
+    <div mdbDropdown class="dropdown mx-1">
+      <button
+        #toolbarToggler
+        class="dropdown-toggle btn btn-sm btn-light wysiwyg-btn shadow-0"
+        type="button"
+        id="dropdownMenuButton"
+        aria-expanded="false"
+        mdbDropdownToggle
+        mdbTooltip="{{ options['moreOptions'] }}"
+        placement="bottom"
+      >
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
+      <ul mdbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <ng-template *ngIf="!toolbarOptions.styles.hidden && !toolbarOptionsVisibility.styles then styleTemplate"></ng-template>
+        <ng-template *ngIf="!toolbarOptions.formatting.hidden && !toolbarOptionsVisibility.formatting then formatingTemplate"></ng-template>
+        <ng-template *ngIf="!toolbarOptions.align.hidden && !toolbarOptionsVisibility.align then alignTemplate"></ng-template>
+        <ng-template *ngIf="!toolbarOptions.lists.hidden && !toolbarOptionsVisibility.lists then listsTemplate"></ng-template>
+        <ng-template *ngIf="!toolbarOptions.links.hidden && !toolbarOptionsVisibility.links then linksTemplate"></ng-template>
+        <ng-template *ngIf="!toolbarOptions.showCode.hidden && !toolbarOptionsVisibility.showCode then showCodeTemplate"></ng-template>
+        <ng-template *ngIf="!toolbarOptions.undoRedo.hidden && !toolbarOptionsVisibility.undoRedo then undoRedoTemplate"></ng-template>
+      </ul>
+    </div>
+  </div>
+</ng-template>

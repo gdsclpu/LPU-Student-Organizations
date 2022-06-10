@@ -1,0 +1,61 @@
+<input
+  #input
+  mdbInput
+  type="text"
+  class="form-control select-input"
+  readonly
+  (click)="toggle()"
+  (focus)="onFocus()"
+  (blur)="onBlur()"
+  [value]="selectionView"
+  [disabled]="disabled"
+  [placeholder]="placeholder"
+/>
+<span
+  *ngIf="clearButton && hasSelected"
+  class="select-clear-btn"
+  [tabIndex]="clearButtonTabindex"
+  (keydown.enter)="handleSelectionClear(); $event.stopPropagation()"
+  (click)="handleSelectionClear($event); $event.stopPropagation()"
+  >&#x2715;</span
+>
+<span class="select-arrow" (click)="toggle(); $event.stopPropagation()"></span>
+
+<ng-template #dropdownTemplate>
+  <div
+    #dropdown
+    [@dropdownContainerAnimation]
+    tabindex="-1"
+    class="select-dropdown-container {{ dropdownClass }}"
+  >
+    <div [@dropdownAnimation]="'visible'" class="select-dropdown">
+      <div class="input-group" *ngIf="filter">
+        <input
+          #filterInput
+          [formControl]="selectFilter"
+          [attr.role]="'searchbox'"
+          type="text"
+          class="form-control select-filter-input w-100 d-block"
+          [placeholder]="filterPlaceholder"
+        />
+      </div>
+      <div
+        #optionsWrapper
+        class="select-options-wrapper"
+        [ngStyle]="{ 'max-height.px': dropdownHeight }"
+      >
+        <div class="select-options-list">
+          <ng-content select="mdb-select-all-option"></ng-content>
+          <span
+            class="select-no-results"
+            [style.height.px]="optionHeight"
+            *ngIf="filter && _showNoResultsMsg && notFoundMsg"
+            >{{ notFoundMsg }}</span
+          >
+          <ng-content select="mdb-option, mdb-option-group"></ng-content>
+        </div>
+      </div>
+      <ng-content select=".select-custom-content"></ng-content>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,88 @@
+.option-group-label {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.54);
+  user-select: none;
+}
+
+.option-group > .option {
+  padding-left: 26px;
+}
+
+.option {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(0, 0, 0, 0.87);
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: transparent;
+  user-select: none;
+
+  &.hidden {
+    display: none;
+  }
+
+  &:hover:not(.disabled) {
+    background-color: #ddd;
+  }
+
+  &.active {
+    background-color: #ddd;
+  }
+
+  &.selected.active {
+    background-color: #ddd;
+  }
+
+  &.selected.disabled {
+    cursor: default;
+    color: #9e9e9e;
+    background-color: transparent;
+  }
+
+  &.selected {
+    background-color: #eee;
+  }
+
+  &.disabled {
+    cursor: default;
+    color: #9e9e9e;
+  }
+}
+
+.option-text {
+  & .form-check-input {
+    margin-right: 10px;
+  }
+}
+
+.option-secondary-text {
+  font-size: 0.8rem;
+  color: #6c757d;
+  display: block;
+  line-height: normal;
+}
+
+.option-icon {
+  width: 28px;
+  height: 28px;
+}

@@ -1,0 +1,11 @@
+{
+  "name": "mdb-angular-ui-kit/smooth-scroll",
+  "private": true,
+  "ngPackage": {
+    "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
+    "lib": {
+      "entryFile": "index.ts"
+    },
+    "dest": "../../dist/smooth-scroll"
+  }
+}

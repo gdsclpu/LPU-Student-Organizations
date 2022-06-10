@@ -1,0 +1,104 @@
+<table class="month">
+  <thead>
+    <tr>
+      <th *ngFor="let weekDay of weekdays">
+        {{ weekDay }}
+      </th>
+    </tr>
+  </thead>
+  <tbody cdkDropList>
+    <tr *ngFor="let date of dates">
+      <td
+        #dayEl
+        *ngFor="let day of date; let dayIndex = index"
+        [ngClass]="{'disabled': !day.currentMonth, 'today': day.isToday}"
+        (click)="onDayClick(day)"
+        (mousedown)="onMouseDown($event, day)"
+        (mouseup)="onMouseUp($event, day)" 
+        (mouseenter)="onMouseMove($event)"
+        (dragenter)="onDragEnter($event, day)"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+      >
+        <div class="day-field">{{ day.dayNumber }}</div>
+        <div class="events-wrapper">
+          <ng-container *ngFor="let event of day.event; let i = index">
+            <ng-container *ngIf="event.order > i + 1 && i === 0">
+              <div 
+                class="fake-event"
+                *ngFor="let fakeEvent of [].constructor(event.order - 1); let index = index"
+                [ngStyle]="{ order: index + 1 }"
+              >
+                &nbsp;
+              </div>
+            </ng-container>
+            <ng-container *ngIf="event.order > i + 1 && i !== 0">
+              <div 
+                class="fake-event"
+                *ngFor="let fakeEvent of [].constructor(event.order - 1 - day.event[i -1].order); let index = index"
+                [ngStyle]="{ order: event.order - day.event[i - 1].order + 1 }"
+              >
+                &nbsp;
+              </div>
+            </ng-container>
+            <div 
+              draggable="true"
+              *ngIf="event.allDay || event.longEvent" 
+              class="event bg-{{event.color.background}}"
+              [ngClass]="{'event-long': !event.eventStart, 'event-readonly': readonly, 'active' : hoveredEventId === event.id, 'dragging' : draggedEventId === event.id}"
+              [ngStyle]="{ color: event.color.foreground, order: event.order }"
+              id="{{i === 0 ? event.id : ''}}"
+              html="true"
+              mdbTooltip="
+                <h6><strong>{{event.summary}}</strong></h6>
+                <p><small><em>{{event.description}}</em></small></p>
+                <p class='me-0'><small>
+                  <i class='fas fa-calendar-alt pe-1'></i>
+                  {{ twelveHours ? convertDateTo12hFormat(event.startData.string) : event.startData.string}}
+                  - 
+                  {{twelveHours ? convertDateTo12hFormat(event.endData.string) : event.endData.string }}
+                </small></p>
+              "
+              [offset]=15
+              (click)="onEventClick(event); $event.stopPropagation()"
+              (dragstart)="onEventDragStart(event)"
+              (dragend)="onEventDragEnd(event)"
+              (mouseenter)="onMouseEnter(event)"
+              (mouseleave)="onMouseLeave()"
+            >
+              {{ event.eventStart || dayIndex === 0 ? event.summary : '&nbsp;' }}
+            </div>
+            <div 
+              draggable="true"
+              *ngIf="!event.allDay && !event.longEvent"  
+              class="event event-short text-{{event.color.background}}"
+              [ngClass]="{'event-readonly': readonly, 'active' : hoveredEventId === event.id, 'dragging' : draggedEventId === event.id}"
+              [ngStyle]="{ order: event.order }"
+              id="{{i === 0 ? event.id : ''}}"
+              html="true"
+              mdbTooltip="
+                <h6><strong>{{event.summary}}</strong></h6>
+                <p><small><em>{{event.description}}</em></small></p>
+                <p class='me-0'><small>
+                  <i class='fas fa-calendar-alt pe-1'></i>
+                  {{ twelveHours ? convertDateTo12hFormat(event.startData.string) : event.startData.string}}
+                   - 
+                  {{twelveHours ? convertDateTo12hFormat(event.endData.string) : event.endData.string }}
+                </small></p>
+              "
+              [offset]=15
+              (click)="onEventClick(event); $event.stopPropagation()"
+              (dragstart)="onEventDragStart(event)"
+              (dragend)="onEventDragEnd(event)"
+              (mouseenter)="onMouseEnter(event)"
+              (mouseleave)="onMouseLeave()"
+            >
+              <i class="fas fa-circle pe-1 event-circle"></i>
+              {{ event.summary }}
+            </div>
+          </ng-container>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

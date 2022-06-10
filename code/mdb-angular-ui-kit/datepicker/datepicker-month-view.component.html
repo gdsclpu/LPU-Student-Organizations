@@ -1,0 +1,25 @@
+<table class="datepicker-table">
+  <tbody
+    #monthsContainer
+    class="datepicker-table-body"
+    (keydown)="_handleMonthsViewKeydown($event)"
+    [tabindex]="0"
+  >
+    <tr *ngFor="let monthsRow of months">
+      <td
+        class="datepicker-cell datepicker-large-cell datepicker-month-cell"
+        [class.selected]="month.index === selectedMonth && month.year === selectedYear"
+        [class.focused]="isActive(month.index)"
+        [class.disabled]="month.disabled"
+        [class.current]="month.current"
+        [attr.aria-label]="month.label"
+        *ngFor="let month of monthsRow"
+        (click)="_selectMonth(month.index); $event.stopPropagation()"
+      >
+        <div class="datepicker-cell-content datepicker-large-cell-content">
+          {{ month.name }}
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

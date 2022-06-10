@@ -1,0 +1,9 @@
+<li #mentionItem
+    [ngStyle]="{'height': optionHeight + 'px'}"
+    [ngClass]="{'active': active}"
+    class="mention-item">
+    <span
+    [innerHTML]="highlightMatchingLetters(item[queryBy])"
+    ></span>
+    <img *ngIf="item.image && item.image !== '' && showImg" [src]="item.image" class="mention-item-image rounded-circle">
+</li>

@@ -1,0 +1,92 @@
+<ng-container [ngSwitch]="orientation">
+  <ng-container *ngSwitchCase="'horizontal'">
+    <div *ngIf="mobile" class="stepper-mobile-head bg-light">
+      Step {{ activeStepIndex + 1 }} of {{ allStepsNumber }}
+    </div>
+    <ul
+      class="stepper stepper-horizontal"
+      [ngClass]="{
+        'stepper-mobile': mobile,
+        'stepper-progress-bar': mobile && steps.length > mobileBarBreakpoint
+      }"
+    >
+      <li
+        [ngClass]="{
+          'stepper-active': step.isActive,
+          'stepper-completed': step.isCompleted,
+          'stepper-invalid': step.isInvalid
+        }"
+        class="stepper-step"
+        *ngFor="let step of steps; let i = index"
+      >
+        <div class="stepper-head" (click)="setNewActiveStep(i)">
+          <span class="stepper-head-icon">
+            <ng-container *ngIf="!step.icon">{{ i + 1 }}</ng-container>
+            <ng-template [ngIf]="step.icon">
+              <ng-template [cdkPortalOutlet]="step.icon"></ng-template>
+            </ng-template>
+          </span>
+          <span class="stepper-head-text">{{ step.name }}</span>
+        </div>
+      </li>
+    </ul>
+    <div class="stepper-horizontal-content-container">
+      <ng-container *ngFor="let step of steps; let i = index">
+        <div
+          class="stepper-content"
+          [attr.aria-expanded]="activeStepIndex === i"
+          [@horizontalAnimation]="getAnimationState(i)"
+        >
+          <ng-container [ngTemplateOutlet]="step.content"></ng-container>
+        </div>
+      </ng-container>
+    </div>
+    <div *ngIf="mobile" class="stepper-mobile-footer bg-light">
+      <div class="stepper-back-btn">
+        <button (click)="previous()" type="button" class="btn btn-link">
+          <i class="fas fa-chevron-left"></i>Back
+        </button>
+      </div>
+      <div *ngIf="steps.length > mobileBarBreakpoint" class="stepper-mobile-progress gray-500">
+        <div
+          class="stepper-mobile-progress-bar bg-primary"
+          [style.width.%]="getProgressBarWidth()"
+        ></div>
+      </div>
+      <div class="stepper-next-btn">
+        <button (click)="next()" type="button" class="btn btn-link">
+          Next<i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'vertical'">
+    <ul class="stepper stepper-vertical">
+      <li
+        [ngClass]="{
+          'stepper-active': step.isActive,
+          'stepper-completed': step.isCompleted,
+          'stepper-invalid': step.isInvalid
+        }"
+        class="stepper-step"
+        *ngFor="let step of steps; let i = index"
+      >
+        <div class="stepper-head" (click)="setNewActiveStep(i)">
+          <span class="stepper-head-icon">
+            <ng-container *ngIf="!step.icon">{{ i + 1 }}</ng-container>
+            <ng-template [ngIf]="step.icon">
+              <ng-template [cdkPortalOutlet]="step.icon"></ng-template>
+            </ng-template>
+          </span>
+          <span class="stepper-head-text">{{ step.name }}</span>
+        </div>
+        <div class="stepper-vertical-content-container" [@verticalAnimation]="getAnimationState(i)">
+          <div class="stepper-content">
+            <ng-container [ngTemplateOutlet]="step.content"></ng-container>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </ng-container>
+</ng-container>

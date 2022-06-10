@@ -1,0 +1,68 @@
+<div
+  class="file-upload"
+  [ngClass]="{ disabled: disabled, 'has-preview': _previews.length || _defaultPreview, 'has-error': _errors.length }"
+  [style.height.px]="height ? height : null"
+>
+  <div class="file-upload-message">
+    <i class="fas fa-cloud-upload-alt file-upload-cloud-icon"></i>
+    <p class="file-upload-default-message">{{ defaultMsg }}</p>
+    <p class="file-upload-main-error" *ngIf="_errors.length">{{ mainError }}</p>
+  </div>
+  <div class="file-upload-mask"></div>
+  <ul class="file-upload-errors" *ngFor="let error of _errors">
+    <li class="file-upload-error">{{ error.message }}</li>
+  </ul>
+  <input
+    #input
+    type="file"
+    class="file-upload-input"
+    [ngClass]="{ 'has-multiple': multiple }"
+    [attr.disabled]="disabled ? disabled : null"
+    [attr.multiple]="multiple ? multiple : null"
+    [attr.accept]="acceptedExtensions ? acceptedExtensions : null"
+    (change)="_handleChangeEvent($event)"
+  />
+  <div #previews class="file-upload-previews" (click)="_handlePreviewsClick()">
+    <ng-container *ngIf="!_errors.length">
+      <div class="file-upload-preview" *ngFor="let preview of _previews">
+        <span class="file-upload-render">
+          <img *ngIf="preview.isImage" class="file-upload-preview-img" [src]="preview.imageSrc" />
+          <ng-container *ngIf="!preview.isImage">
+            <i *ngIf="!preview.isImage" class="fas fa-file file-upload-file-icon"></i>
+            <span class="file-upload-extension">{{ preview.extension }}</span>
+          </ng-container>
+        </span>
+        <div class="file-upload-preview-details">
+          <button *ngIf="!removeBtnDisabled" type="button" class="btn btn-danger file-upload-remove-file-btn" (click)="_removeFile(preview); $event.stopPropagation()">
+            {{ removeBtn }}
+            <i class="fa fa-trash-alt ms-1"></i>
+          </button>
+          <div class="file-upload-details-container">
+            <div class="file-upload-preview-details-inner">
+              <p class="file-upload-file-name">{{ preview.name }}</p>
+              <p class="file-upload-preview-message">{{ previewMsg }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div *ngIf="_defaultPreview && !_files.length" class="file-upload-preview">
+      <span class="file-upload-render">
+        <img class="file-upload-preview-img" [src]="_defaultPreview.imageSrc" />
+      </span>
+      <div class="file-upload-preview-details">
+        <button *ngIf="!removeBtnDisabled" type="button" class="btn btn-danger file-upload-remove-file-btn" (click)="_removeDefaultPreview(); $event.stopPropagation()">
+          {{ removeBtn }}
+          <i class="fa fa-trash-alt ms-1"></i>
+        </button>
+        <div class="file-upload-details-container">
+          <div class="file-upload-preview-details-inner">
+            <p class="file-upload-file-name">{{ _defaultPreview.name }}</p>
+            <p class="file-upload-preview-message">{{ previewMsg }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

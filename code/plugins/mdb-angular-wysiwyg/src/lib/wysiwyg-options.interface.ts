@@ -1,0 +1,34 @@
+export interface MdbWysiwygOptions {
+  paragraph: string;
+  textStyle: string;
+  heading: string;
+  preformatted: string;
+  bold: string;
+  italic: string;
+  strikethrough: string;
+  underline: string;
+  textcolor: string;
+  textBackgroundColor: string;
+  justifyLeft: string;
+  justifyCenter: string;
+  justifyRight: string;
+  justifyFull: string;
+  insertLink: string;
+  insertPicture: string;
+  insertUnorderedList: string;
+  insertOrderedList: string;
+  indent: string;
+  outdent: string;
+  insertHorizontalRule: string;
+  showHTML: string;
+  undo: string;
+  redo: string;
+  addLinkHead: string;
+  addImageHead: string;
+  linkUrlLabel: string;
+  linkDescription: string;
+  imageUrlLabel: string;
+  okButton: string;
+  cancelButton: string;
+  moreOptions: string;
+}

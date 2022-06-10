@@ -1,0 +1,50 @@
+<div class="calendar">
+  <mdb-tools-calendar
+    [options]="options"
+    [activeDate]="activeDate"
+    [activeView]="view"
+    [mondayFirst]="mondayFirst"
+    (viewChange)="changeView($event)"
+    (previousBtnClick)="prevPeriod()"
+    (nextBtnClick)="nextPeriod()"
+    (todayBtnClick)="todayPeriod()"
+  ></mdb-tools-calendar>
+  <mdb-month-view-calendar
+    [activeDate]="activeDate"
+    [events]="events"
+    [options]="options"
+    [readonly]="readonly"
+    [mondayFirst]="mondayFirst"
+    [twelveHours]="twelveHours"
+    *ngIf="view === 'month'"
+    (dayClicked)="addEvent($event)"
+    (eventClicked)="openEditModal($event)"
+    (eventDragged)="editEvent($event)"
+  >
+  </mdb-month-view-calendar>
+  <mdb-week-view-calendar
+    [options]="options"
+    [activeDate]="activeDate"
+    [events]="events"
+    [readonly]="readonly"
+    [mondayFirst]="mondayFirst"
+    [twelveHours]="twelveHours"
+    *ngIf="view === 'week'"
+    (dayClicked)="addEvent($event)"
+    (eventClicked)="openEditModal($event)"
+    (eventDragged)="editEvent($event)"
+  >
+  </mdb-week-view-calendar>
+  <mdb-list-view-calendar 
+    [options]="options"
+    [activeDate]="activeDate"
+    [events]="events"
+    [readonly]="readonly"
+    [mondayFirst]="mondayFirst"
+    [twelveHours]="twelveHours"
+    *ngIf="view === 'list'"
+    (eventClicked)="openEditModal($event)"
+  >
+  </mdb-list-view-calendar>
+
+</div>

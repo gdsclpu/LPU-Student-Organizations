@@ -1,0 +1,78 @@
+<div #galleryToolbar class="lightbox-gallery-toolbar">
+  <div #loader class="lightbox-gallery-loader" style="opacity: 0">
+    <div class="spinner-grow text-light" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div class="lightbox-gallery-left-tools">
+    <p class="lightbox-gallery-counter">{{ index + 1 }} / {{ total }}</p>
+  </div>
+  <div class="lightbox-gallery-right-tools">
+    <button
+      type="button"
+      #btnFullsreen
+      class="lightbox-gallery-button lightbox-gallery-fullscreen-btn"
+      [ngClass]="{ 'fontawesome-pro': lightbox.fontAwesome === 'pro' }"
+      aria-label="Toggle fullscreen"
+      (click)="toggleFullscreen()"
+    ></button>
+    <button
+      type="button"
+      #btnZoom
+      class="lightbox-gallery-button lightbox-gallery-zoom-btn"
+      [ngClass]="{ 'fontawesome-pro': lightbox.fontAwesome === 'pro' }"
+      aria-label="Zoom in"
+      (click)="zoom()"
+    ></button>
+    <button
+      type="button"
+      class="lightbox-gallery-button lightbox-gallery-close-btn"
+      [ngClass]="{ 'fontawesome-pro': lightbox.fontAwesome === 'pro' }"
+      aria-label="Close"
+      (click)="close()"
+    ></button>
+  </div>
+</div>
+
+<div class="lightbox-gallery-content">
+  <div #activeItemWrapper class="lightbox-gallery-image">
+    <img
+      #activeItem
+      [src]="activeLightboxItem.img || activeLightboxItem.el.nativeElement.src"
+      [alt]="activeLightboxItem.el.nativeElement.alt"
+      draggable="false"
+      @fade
+      (load)="load()"
+      (mousedown)="onMousedown($event)"
+      (mouseup)="onMouseup($event)"
+      (mousemove)="onMousemove($event)"
+      (wheel)="onWheel($event)"
+    />
+  </div>
+</div>
+
+<div #leftArrow class="lightbox-gallery-arrow-left" style="opacity: 1">
+  <button
+    type="button"
+    #btnPrevious
+    aria-label="Previous"
+    (click)="slide('left')"
+    class="lightbox-gallery-button"
+    [ngClass]="{ 'fontawesome-pro': lightbox.fontAwesome === 'pro' }"
+  ></button>
+</div>
+<div #rightArrow class="lightbox-gallery-arrow-right" style="opacity: 1">
+  <button
+    type="button"
+    #btnNext
+    aria-label="Next"
+    (click)="slide('right')"
+    class="lightbox-gallery-button"
+    [ngClass]="{ 'fontawesome-pro': lightbox.fontAwesome === 'pro' }"
+  ></button>
+</div>
+<div class="lightbox-gallery-caption-wrapper">
+  <p class="lightbox-gallery-caption">
+    {{ activeLightboxItem.caption || activeLightboxItem.el.nativeElement.alt }}
+  </p>
+</div>

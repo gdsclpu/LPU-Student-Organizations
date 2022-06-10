@@ -1,0 +1,214 @@
+/* ==========================================================================
+   $BASE-PICKER
+   ========================================================================== */
+/**
+ * Note: the root picker element should *NOT* be styled more than what's here.
+ */
+/**
+ * The picker input element.
+ */
+
+/**
+ * Note: the root picker element should *NOT* be styled more than what's here.
+ */
+
+.disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.mdb-timepicker-modal {
+  // min-height: 512px;
+  min-width: 328px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 11px 15px -7px, rgba(0, 0, 0, 0.14) 0px 24px 38px 3px,
+    rgba(0, 0, 0, 0.12) 0px 9px 46px 8px;
+  background: $white;
+  display: table-cell;
+  vertical-align: middle;
+  @media (min-height: $pickerframe-wrap-box-breakpoint) {
+    display: block;
+    border: $picker-box-border solid $picker-box-border-color;
+    border-top-color: $picker-box-border-top-color;
+    border-bottom-width: 0;
+    border-radius: $picker-box-border-radius;
+    box-shadow: $picker-box-box-shadow;
+  }
+}
+
+.mdb-timepicker-header {
+  height: 120px;
+  box-sizing: border-box;
+  background-color: $datepicker-date-bg;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.mdb-timepicker-time {
+  font-size: $timepicker-clockpicker-display-font-size;
+  color: $timepicker-clockpicker-display-color;
+}
+
+.mdb-timepicker-ampm {
+  margin-left: 15px;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+span {
+  cursor: pointer;
+  &.active {
+    color: white;
+  }
+}
+
+.mdb-timepicker-tick {
+  border-radius: 50%;
+  color: #666666;
+  line-height: 2.5rem;
+  text-align: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  position: absolute;
+  cursor: pointer;
+  transition: background-color 300ms;
+  background-color: rgba(0, 150, 136, 0);
+  transition: 0.3s;
+  &:hover {
+    background-color: rgba(0, 150, 136, 0.25);
+  }
+}
+
+.mdb-timepicker-footer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 12px;
+}
+
+.mdb-timepicker-btn {
+  padding: 6px 8px;
+  text-transform: uppercase;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  min-width: 64px;
+  transition: 0.3s;
+
+  &:not(&.mdb-timepicker-clear) {
+    margin-left: 8px;
+  }
+
+  &.mdb-timepicker-clear {
+    margin-right: auto;
+  }
+
+  &:hover {
+    background-color: rgba(0, 150, 136, 0.25);
+  }
+}
+
+.mdb-timepicker-plate {
+  background-color: $grey-lighten-3;
+  border-radius: $timepicker-clockpicker-plate-border-radius;
+  width: $timepicker-clockpicker-plate-width;
+  height: $timepicker-clockpicker-plate-height;
+  overflow: visible;
+  position: relative;
+  margin: auto;
+  margin-top: $timepicker-clockpicker-plate-margin-top;
+  /* Disable text selection highlighting. Thanks to Hermanya */
+  user-select: none;
+
+  .mdb-timepicker-minutes {
+    visibility: hidden;
+  }
+
+  .mdb-timepicker-dial-out {
+    opacity: 0;
+  }
+
+  .mdb-timepicker-hours.mdb-timepicker-dial-out {
+    @include transform($timepicker-clockpicker-dial-out-transform);
+  }
+
+  .mdb-timepicker-minutes.mdb-timepicker-dial-out {
+    @include transform($timepicker-clockpicker-dial-out-transform-minutes);
+  }
+}
+
+.mdb-timepicker-canvas,
+.mdb-timepicker-dial {
+  width: $timepicker-clockpicker-canvas-width;
+  height: $timepicker-clockpicker-canvas-height;
+  position: absolute;
+  left: $timepicker-clockpicker-canvas-left;
+  top: $timepicker-clockpicker-canvas-top;
+}
+
+.mdb-timepicker-dial {
+  @include transition-main(
+    $timepicker-clockpicker-dial-transition-transform,
+    $timepicker-clockpicker-dial-transition-opacity
+  );
+
+  .mdb-timepicker-tick {
+    border-radius: $timepicker-clockpicker-dial-tick-border-radius;
+    color: $timepicker-color-mdb;
+    line-height: $timepicker-clockpicker-dial-tick-line-height;
+    text-align: center;
+    width: $timepicker-clockpicker-dial-tick-width;
+    height: $timepicker-clockpicker-dial-tick-height;
+    position: absolute;
+    cursor: pointer;
+    transition: $timepicker-clockpicker-dial-tick-transition;
+    background-color: $timepicker-clockpicker-dial-tick-hover-bg;
+
+    &.active,
+    &:hover {
+      background-color: $timepicker-clockpicker-dial-tick-hover-bg-opacity;
+    }
+  }
+}
+
+.mdb-timepicker-canvas {
+  @include transition-main($timepicker-clockpicker-canvas-transition);
+
+  line {
+    stroke: $timepicker-clockpicker-canvas-stroke;
+    stroke-width: $timepicker-clockpicker-canvas-stroke-width;
+  }
+}
+
+.mdb-timepicker-canvas-out {
+  opacity: $timepicker-clockpicker-canvas-out-opacity;
+}
+
+.mdb-timepicker-canvas-bearing {
+  stroke: none;
+  fill: $timepicker-clockpicker-canvas-bearing-fill;
+}
+
+.mdb-timepicker-canvas-fg {
+  stroke: none;
+  fill: $timepicker-clockpicker-canvas-fg-fill;
+
+  &.active {
+    fill: $timepicker-clockpicker-canvas-fg-active-fill;
+  }
+}
+
+.mdb-timepicker-canvas-bg {
+  stroke: none;
+  fill: $timepicker-clockpicker-canvas-bg-fill;
+}
+
+.mdb-timepicker-canvas-bg-trans {
+  fill: $timepicker-clockpicker-canvas-bg-trans-fill;
+}

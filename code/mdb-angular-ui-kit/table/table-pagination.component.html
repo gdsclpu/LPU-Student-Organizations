@@ -1,0 +1,31 @@
+<div class="datatable-pagination">
+  <div class="datatable-select-wrapper">
+    <p class="datatable-select-text">{{ rowsPerPageText }}:</p>
+    <mdb-form-control>
+      <mdb-select [(ngModel)]="entries" (selected)="updateRowPerPageNumber($event)">
+        <mdb-option *ngFor="let entry of entriesOptions" [value]="entry">{{ entry }}</mdb-option>
+      </mdb-select>
+    </mdb-form-control>
+  </div>
+  <div class="datatable-pagination-nav">{{ getPaginationRangeText() }}</div>
+
+  <div class="datatable-pagination-buttons">
+    <button
+      type="button"
+      class="btn btn-link datatable-pagination-button datatable-pagination-left"
+      [ngClass]="{ disabled: isPreviousPageDisabled() || prevButtonDisabled }"
+      (click)="previousPage()"
+    >
+      <i class="fa fa-chevron-left"></i>
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-link datatable-pagination-button datatable-pagination-right"
+      [ngClass]="{ disabled: isNextPageDisabled() || nextButtonDisabled }"
+      (click)="nextPage()"
+    >
+      <i class="fa fa-chevron-right"></i>
+    </button>
+  </div>
+</div>

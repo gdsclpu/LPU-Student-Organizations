@@ -1,0 +1,21 @@
+<div [@dropdownContainerAnimation] class="mention-dropdown-container" >
+    <div [@dropdownAnimation] role="listbox" class="mention-dropdown">
+      <ul class="mention-items-list" #dropdownList
+        [ngStyle]="{'max-height': optionHeight * visibleItems + 'px'}">
+        <mention-item
+        *ngFor="let item of items"
+        [mentionValue]="mentionValue"
+        [showImg]="showImg"
+        [queryBy]="queryBy"
+        [optionHeight]="optionHeight"
+        [item]="item"
+        (click)="handleOptionClick(item)"></mention-item>
+        <li
+        *ngIf="(items.length === 0 && showNoResultText) || asyncError"
+        [ngStyle]="{'min-height': optionHeight + 'px'}"
+        class="mention-result">
+        {{ noResultText }}
+      </li>
+      </ul>
+    </div>
+  </div>

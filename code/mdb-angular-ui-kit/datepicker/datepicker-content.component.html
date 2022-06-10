@@ -1,0 +1,103 @@
+<div
+  [@fadeInOutDatepicker]="_contentAnimationState"
+  (@fadeInOutDatepicker.done)="_onAnimationDone($event)"
+  cdkTrapFocus
+  [ngClass]="{
+    'datepicker-modal-container': !datepicker.inline,
+    'datepicker-dropdown-container': datepicker.inline
+  }"
+>
+  <div class="datepicker-header" *ngIf="!datepicker.inline">
+    <div class="datepicker-title">
+      <span class="datepicker-title-text">{{ datepicker.options.title }}</span>
+    </div>
+    <div class="datepicker-date">
+      <span class="datepicker-date-text">{{ datepicker._headerDate }}</span>
+    </div>
+  </div>
+  <div class="datepicker-main">
+    <div class="datepicker-date-controls">
+      <button
+        type="button"
+        [attr.aria-label]="datepicker.viewChangeButtonLabel"
+        class="datepicker-view-change-button"
+        (click)="datepicker.viewChange(); ($event.preventDefault); $event.stopPropagation()"
+      >
+        {{ datepicker.viewChangeButtonText }}
+      </button>
+      <div class="datepicker-arrow-controls">
+        <button
+          type="button"
+          [attr.aria-label]="datepicker.prevButtonLabel"
+          class="datepicker-previous-button"
+          [disabled]="datepicker._prevBtnDisabled"
+          (click)="datepicker._handlePreviousButtonClick()"
+        ></button>
+        <button
+          type="button"
+          [attr.aria-label]="datepicker.nextButtonLabel"
+          class="datepicker-next-button"
+          [disabled]="datepicker._nextBtnDisabled"
+          (click)="datepicker._handleNextButtonClick()"
+        ></button>
+      </div>
+    </div>
+    <div class="datepicker-view" [ngSwitch]="datepicker._currentView">
+      <mdb-datepicker-day-view
+        *ngSwitchCase="'days'"
+        [(activeDate)]="datepicker._activeDate"
+        [selectedDate]="datepicker._selectedDate"
+        [startDay]="datepicker.startDay"
+        [options]="datepicker.options"
+        [minDate]="datepicker.minDate"
+        [maxDate]="datepicker.maxDate"
+        [filter]="datepicker.filter"
+        (dateSelected)="onDateSelect($event)"
+      ></mdb-datepicker-day-view>
+      <mdb-datepicker-year-view
+        *ngSwitchCase="'years'"
+        [(activeDate)]="datepicker._activeDate"
+        [minDate]="datepicker.minDate"
+        [maxDate]="datepicker.maxDate"
+        [selectedYear]="datepicker._selectedYear"
+        (yearSelected)="onYearSelect($event)"
+      ></mdb-datepicker-year-view>
+      <mdb-datepicker-month-view
+        *ngSwitchCase="'months'"
+        [(activeDate)]="datepicker._activeDate"
+        [selectedMonth]="datepicker._selectedMonth"
+        [selectedYear]="datepicker._selectedYear"
+        [options]="datepicker.options"
+        [minDate]="datepicker.minDate"
+        [maxDate]="datepicker.maxDate"
+        (monthSelected)="onMonthSelect($event)"
+      ></mdb-datepicker-month-view>
+    </div>
+    <div class="datepicker-footer" *ngIf="!datepicker.inline">
+      <button
+        type="button"
+        [attr.aria-label]="datepicker.options.clearBtnLabel"
+        class="datepicker-footer-btn datepicker-clear-btn"
+        (click)="datepicker._handleClearClick()"
+      >
+        {{ datepicker.options.clearBtnText }}
+      </button>
+      <button
+        type="button"
+        [attr.aria-label]="datepicker.options.cancelBtnLabel"
+        class="datepicker-footer-btn datepicker-cancel-btn"
+        (click)="datepicker._handleCancelClick()"
+      >
+        {{ datepicker.options.cancelBtnText }}
+      </button>
+      <button
+        type="button"
+        [attr.aria-label]="datepicker.options.okBtnLabel"
+        class="datepicker-footer-btn datepicker-ok-btn"
+        (click)="datepicker._handleOkClick()"
+      >
+        {{ datepicker.options.okBtnText }}
+      </button>
+    </div>
+  </div>
+</div>

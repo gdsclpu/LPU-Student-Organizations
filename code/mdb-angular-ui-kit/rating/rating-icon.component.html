@@ -1,0 +1,9 @@
+<span>
+  <span class="text-body">{{ before }}</span>
+  <i
+    [ngClass]="active ? 'fas ' + icon + ' active' : 'far ' + icon"
+    [ngStyle]="{ color: color }"
+    (mouseenter)="onMouseenter()"
+  ></i>
+  <span class="text-body">{{ after }}</span>
+</span>

@@ -1,0 +1,89 @@
+<div class="transfer-container-header">
+  <div class="transfer-header-select-all-container">
+    <input
+      #selectAllChekcbox
+      mdbCheckbox
+      class="form-check-input"
+      type="checkbox"
+      value=""
+      id="{{selectAllCheckboxId}}"
+      [(ngModel)]="selectAllChecked"
+      (click)="toggleSelectAll()"
+    />
+    <label 
+      style="text-transform: capitalize"
+      class="form-check-label"
+      for="{{selectAllChekcbox.id}}"
+    >
+      {{dataType}}
+    </label>
+  </div>
+  <span class="transfer-header-quantity">
+    <span class="current-checked">{{selectedItemsNumebr}}</span>
+    <span>/</span>
+    <span class="transfer-header-full-quantity">{{data.length}}</span>
+  </span>
+</div>
+<mdb-form-control *ngIf="search" class="transfer-search-outline">
+  <input 
+    #searchInput
+    mdbInput
+    type="text"
+    id="mdb-transfer-search-{{searchId}}"
+    class="form-control"
+    (input)="onSearch($event.target.value)"
+  />
+  <label 
+    mdbLabel
+    class="form-label"
+    for="{{searchInput.id}}"
+  >
+    Search
+  </label>
+</mdb-form-control>
+<ul class="transfer-body" [ngClass]="{'transfer-body-no-data': formatedData.length === 0}">
+  <div *ngIf="data.length === 0" class="transfer-body-no-data">
+    <i class="far fa-folder-open transfer-no-data-mdb-icon"></i>
+    <span>No Data</span>
+  </div>
+  <ng-container *ngIf="formatedData.length > 0">
+    <li *ngFor="let item of formatedData" class="transfer-body-item">
+      <div class="form-check">
+        <input
+          #itemCheckbox
+          mdbCheckbox
+          class="form-check-input transfer-body-item-text form-check-label transfer-body-item-checkbox"
+          type="checkbox"
+          value=""
+          id="{{item.id}}"
+          [ngClass]="{'transfer-body-item-checkbox-disabled': item.disabled}"
+          [disabled]="item.disabled"
+          [checked]="item.checked"
+          (click)="toggleSelect(item)"
+        />
+        <label 
+          class="form-check-label transfer-body-item-text"
+          for="{{item.id}}"
+          [ngClass]="{'transfer-body-item-text-disabled': item.disabled}"
+        >
+          {{ item.data }}
+        </label>
+      </div>
+    </li>
+  </ng-container>
+</ul>
+<div *ngIf="pagination" class="transfer-footer">
+  <button 
+    class="btn btn-outline-primary btn-floating btn-sm transfer-footer-arrow"
+    (click)="changePaginationPage('previous')"  
+  >
+    <i class="fas fa-angle-left"></i>
+  </button>
+  <span class="transfer-footer-current-page">{{paginationPage}}</span>
+  <button 
+    class="btn btn-outline-primary btn-floating btn-sm transfer-footer-arrow"
+    (click)="changePaginationPage('next')"  
+  >
+    <i class="fas fa-angle-right"></i>
+  </button>
+</div>

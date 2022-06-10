@@ -1,0 +1,17 @@
+<ng-template #dropdownTemplate>
+  <div [@dropdownContainerAnimation] class="autocomplete-dropdown-container">
+    <div [@dropdownAnimation] role="listbox" class="autocomplete-dropdown">
+      <div
+        #dropdown
+        class="autocomplete-items-list"
+        [ngStyle]="{
+          'max-height.px': listHeight
+        }"
+      >
+        <ng-content></ng-content>
+      </div>
+      <ng-content select=".autocomplete-no-results"></ng-content>
+      <ng-content select=".autocomplete-custom-content"></ng-content>
+    </div>
+  </div>
+</ng-template>

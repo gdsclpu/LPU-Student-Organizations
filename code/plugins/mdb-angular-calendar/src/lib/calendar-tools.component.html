@@ -1,0 +1,17 @@
+<div class="calendar-tools">
+  <div class="btn-group btn-group-sm shadow-0">
+    <button class="btn btn-outline-primary" (click)="handlePreviousBtnClick()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="btn btn-outline-primary" (click)="handleNextBtnClick()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <button class="btn btn-outline-primary" (click)="handleTodayBtnClick()">{{ options.todayCaption }}</button>
+  </div>
+  <span class="calendar-heading">{{ period }}</span>
+  <div class="btn-group btn-group-sm shadow-0">
+    <button class="btn btn-outline-primary" (click)="toggleView('month')">{{ options.monthCaption }}</button>
+    <button class="btn btn-outline-primary" (click)="toggleView('week')">{{ options.weekCaption }}</button>
+    <button class="btn btn-outline-primary" (click)="toggleView('list')">{{ options.listCaption }}</button>
+  </div>
+</div>
