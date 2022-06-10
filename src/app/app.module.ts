@@ -36,9 +36,13 @@ import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbTimepickerModule } from 'mdb-angular-ui-kit/timepicker';
 import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+import { NavigationComponent } from './navigation/navigation.component';
+import { AppRoutingModule } from './app-routing.module';
+import { HomeComponent } from './home/home.component';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NavigationComponent, HomeComponent, ContactComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -75,6 +79,7 @@ import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
     MdbTimepickerModule,
     MdbTooltipModule,
     MdbValidationModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
