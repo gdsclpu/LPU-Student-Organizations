@@ -1,6 +1,12 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand ms-5" routerLink="/">LPU Student Organizations</a>
+<nav class="navbar navbar-expand-lg py-0 navbar-dark bg-dark">
+  <div class="container-fluid ps-0 py-0">
+    <a class="navbar-brand my-0 mx-0 px-0 py-0" routerLink="/">
+      <img
+        src="http://2.bp.blogspot.com/_dkwEYnNYQK0/S0M_UiFu8MI/AAAAAAAAACo/fIRNa9N_Yf0/s320/logo-lpu2.gif"
+        alt="logo"
+        class="logo"
+      />
+    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -11,12 +17,12 @@
       <i class="fas fa-bars"></i>
     </button>
     <div
-      class="collapse navbar-collapse"
+      class="collapse navbar-collapse ms-0"
       id="navbarNav"
       mdbCollapse
       #basicNav="mdbCollapse"
     >
-      <ul class="navbar-nav ms-auto me-5">
+      <ul class="navbar-nav w-100 me-5">
         <li class="nav-item">
           <a
             class="nav-link"
@@ -36,7 +42,7 @@
           >
         </li>
         <li
-          class="nav-item d-flex text-white align-items-center justify-content-center mx-2"
+          class="nav-item ms-auto me-5 d-flex text-white align-items-center justify-content-center mx-2"
         >
           <p *ngIf="isLoggedIn" class="fw-bold mx-2 small my-0">
             Welcome , <span class="text-warning">{{ currentUser }}</span>
