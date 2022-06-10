@@ -108,6 +108,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "mdb5-angular-ui-kit-pro-advanced:build:production",
+            "firebaseProject": "so-lpu",
+            "firebaseHostingSite": "lpu-so"
+          }
         }
       }
     }
