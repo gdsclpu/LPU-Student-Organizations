@@ -35,6 +35,37 @@
             >Contact</a
           >
         </li>
+        <li
+          class="nav-item d-flex text-white align-items-center justify-content-center mx-2"
+        >
+          <p *ngIf="isLoggedIn" class="fw-bold mx-2 small my-0">
+            Welcome , <span class="text-warning">{{ currentUser }}</span>
+          </p>
+        </li>
+        <li
+          *ngIf="isLoggedIn"
+          class="nav-item d-flex align-items-center justify-content-center mx-2"
+        >
+          <button class="btn btn-primary btn-sm" (click)="logout()">
+            Logout
+          </button>
+        </li>
+        <li
+          *ngIf="!isLoggedIn"
+          class="nav-item d-flex align-items-center justify-content-center mx-2"
+        >
+          <button class="btn btn-primary btn-sm" (click)="redirectToLogin()">
+            Login
+          </button>
+        </li>
+        <li
+          *ngIf="!isLoggedIn"
+          class="nav-item d-flex align-items-center justify-content-center mx-2"
+        >
+          <button class="btn btn-success btn-sm" (click)="redirectToRegister()">
+            Sign Up
+          </button>
+        </li>
       </ul>
     </div>
   </div>

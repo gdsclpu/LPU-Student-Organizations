@@ -1,0 +1,35 @@
+<div class="form-container">
+  <h2>Login</h2>
+  <form #formData="ngForm" (ngSubmit)="onSubmit(formData)">
+    <input
+      type="text"
+      placeholder="Email address"
+      (ngModel)="(email)"
+      name="email"
+      class="input-txt"
+      required
+    />
+    <input
+      type="password"
+      placeholder="Password"
+      (ngModel)="(password)"
+      name="password"
+      class="input-txt"
+      required
+    />
+    <input
+      type="number"
+      placeholder="Reg No."
+      (ngModel)="(regNo)"
+      name="regNo"
+      class="input-txt"
+      required
+    />
+    <button type="submit" [disabled]="!formData.valid" class="auth-btn">
+      Sign Up
+    </button>
+  </form>
+  <a routerLink="/login" routerLinkActive="active" class="create-account-txt"
+    >Already have an account? <strong>Login here</strong></a
+  >
+</div>
