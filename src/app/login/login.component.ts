@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -11,12 +12,16 @@ export class LoginComponent implements OnInit {
   public email: string = '';
   public password: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private _location: Location) {}
 
   ngOnInit(): void {}
 
   login(email: string, password: string) {
     this.authService.login(email, password);
+  }
+
+  goBack() {
+    this._location.back();
   }
 
   onSubmit(formData: NgForm) {

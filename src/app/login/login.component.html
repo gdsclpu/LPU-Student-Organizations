@@ -1,27 +1,62 @@
-<div class="form-container">
-  <h2>Login</h2>
-  <form #formData="ngForm" (ngSubmit)="onSubmit(formData)">
-    <input
-      type="text"
-      placeholder="Email address"
-      (ngModel)="(email)"
-      name="email"
-      class="input-txt"
-      required
-    />
-    <input
-      type="password"
-      placeholder="Password"
-      (ngModel)="(password)"
-      name="password"
-      class="input-txt"
-      required
-    />
-    <button type="submit" [disabled]="!formData.valid" class="auth-btn">
+<div
+  class="login-container position-fixed bg-white d-flex flex-column align-items-center justify-content-center left-0 top-0 w-100 h-100"
+  style="z-index: 9999"
+>
+  <i
+    class="position-absolute fa fa-times close-btn"
+    (click)="goBack()"
+    role="button"
+  ></i>
+  <form
+    #formData="ngForm"
+    class="d-flex position-relative pt-5 rounded-5 flex-column gap-2 align-items-center login-form"
+    (ngSubmit)="onSubmit(formData)"
+    autocomplete="off"
+  >
+    <i class="fa fa-user-circle position-absolute text-primary user-icon"></i>
+
+    <div
+      class="d-flex flex-column border border-bottom-0 border-start-0 border-end-0 mt-4 w-100 p-4 px-3 pb-0 gap-4"
+    >
+      <div class="form-group mt-2">
+        <input
+          type="email"
+          placeholder="Email address"
+          (ngModel)="(email)"
+          name="email"
+          class="input-txt form-control"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <input
+          type="password"
+          placeholder="Password"
+          (ngModel)="(password)"
+          name="password"
+          class="input-txt form-control"
+          required
+        />
+      </div>
+    </div>
+    <a
+      routerLink="/signup"
+      routerLinkActive="active"
+      class="forgot-pass mt-1 small px-4 ms-auto text-end"
+      >FORGOT PASSWORD?</a
+    >
+    <button
+      type="submit"
+      [disabled]="!formData.valid"
+      class="login-btn btn btn-primary mt-4"
+    >
       Log in
     </button>
+    <a
+      routerLink="/signup"
+      routerLinkActive="active"
+      class="create-account-txt text-dark small mt-4 mb-0"
+      >Need an account? <span class="text-primary">Sign Up</span></a
+    >
   </form>
-  <a routerLink="/signup" routerLinkActive="active" class="create-account-txt"
-    >No account? <strong>Create one here</strong></a
-  >
 </div>

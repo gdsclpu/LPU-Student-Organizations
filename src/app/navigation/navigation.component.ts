@@ -17,10 +17,8 @@ export class NavigationComponent implements OnInit {
     this.authService.getAuthStatusListener().subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
       const user: any = this.authService.getUser();
-      if (user.displayName) {
-        this.currentUser = user.displayName;
-      } else {
-        this.currentUser = user.email;
+      if (user) {
+        this.currentUser = user.displayName || user.email;
       }
     });
   }

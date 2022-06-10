@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class SignupComponent implements OnInit {
   public password: string = '';
   public regNo: number = 0;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private _location: Location) {}
 
   ngOnInit(): void {}
 
@@ -24,4 +24,8 @@ export class SignupComponent implements OnInit {
       formData.value.regNo
     );
   };
+
+  goBack() {
+    this._location.back();
+  }
 }
