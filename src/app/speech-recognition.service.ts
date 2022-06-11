@@ -18,7 +18,6 @@ export class SpeechRecognitionService {
     this.recognition.lang = 'en-IN';
 
     this.recognition.onstart = () => {
-      console.log('Speech recognition started');
       this.isStoppedSpeechRecog = false;
       this.speechStateListener.next(false);
     };
@@ -34,7 +33,6 @@ export class SpeechRecognitionService {
 
     this.recognition.onend = () => {
       if (!this.isStoppedSpeechRecog) {
-        console.log('muted', this.isStoppedSpeechRecog);
         this.recognition.start();
         // console.log('Speech recognition stopped');
         // console.log('muted', this.isStoppedSpeechRecog);
