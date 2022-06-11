@@ -6,7 +6,12 @@ import {
 } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat/app';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import {
+  MdbNotificationRef,
+  MdbNotificationService,
+} from 'mdb-angular-ui-kit/notification';
+import { ToastComponent } from './toast/toast.component';
 
 export interface User {
   email: string;
@@ -20,11 +25,13 @@ export class AuthService {
   private authStatusListener = new Subject<boolean>();
   private isLoggedIn: boolean = false;
   private currentUser: any = null;
+  private notificationRef: MdbNotificationRef<ToastComponent> | null = null;
 
   constructor(
     private auth: AngularFireAuth,
     private firestore: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private notificationService: MdbNotificationService
   ) {
     this.auth.authState.subscribe((user) => {
       if (user) {
@@ -51,10 +58,22 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    this.auth.signInWithEmailAndPassword(email, password).then(() => {
-      this.router.navigate(['/']);
-      this.authStatusListener.next(true);
-    });
+    this.auth
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.router.navigate(['/']);
+        this.authStatusListener.next(true);
+      })
+      .catch((error) => {
+        console.log(error);
+
+        this.notificationRef = this.notificationService.open(ToastComponent, {
+          data: { text: 'Invalid Email/Password', type: 'danger' },
+          position: 'top-right',
+          delay: 5000,
+          autohide: true,
+        });
+      });
   }
 
   register(email: string, password: string, regNo: Number) {

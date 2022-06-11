@@ -1,0 +1,18 @@
+<div
+  class="toast bg-{{ type }} mx-auto"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
+  <div class="toast-header text-white bg-{{ type }}">
+    <strong class="me-auto">Login Error</strong>
+    <small>1 sec ago</small>
+    <button
+      type="button"
+      class="btn-close btn-close-white"
+      aria-label="Close"
+      (click)="notificationRef.close()"
+    ></button>
+  </div>
+  <div class="toast-body text-white">{{ text }}</div>
+</div>
