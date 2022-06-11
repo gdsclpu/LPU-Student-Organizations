@@ -1,12 +1,15 @@
 <div
   class="float-voice-btn d-flex align-items-center justify-content-center rounded-circle"
+  (click)="toggleSpeechRecog()"
   style="z-index: 99"
 >
   <!-- mic-container-float btn ${
           !isMuted ? "btn-primary" : "btn-danger" -->
 
   <div
-    class="btn-danger w-100 h-100 position-relative d-flex align-items-center justify-content-center rounded-circle"
+    class="{{
+      !isStoppedSpeechRecog ? 'btn-primary' : 'btn-danger'
+    }}  w-100 h-100 position-relative d-flex align-items-center justify-content-center rounded-circle"
   >
     <!-- <p class=" float-text  pe-4 ps-2 text-dark position-absolute right-100">
             text
