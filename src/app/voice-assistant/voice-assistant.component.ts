@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { SpeechRecognitionService } from '../speech-recognition.service';
 import {
   ISpeechSynthesis,
@@ -14,10 +14,10 @@ export class VoiceAssistantComponent implements OnInit {
   public isStoppedSpeechRecog: boolean = true;
   public text: string = '';
   public isSpeaking: boolean = false;
-
   constructor(
     private speechRecognitionService: SpeechRecognitionService,
-    private speechSynthesisService: SpeechSynthesisService
+    private speechSynthesisService: SpeechSynthesisService,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -31,8 +31,10 @@ export class VoiceAssistantComponent implements OnInit {
     this.speechSynthesisService
       .getSynthesisStateListener()
       .subscribe((value: ISpeechSynthesis) => {
-        this.isSpeaking = value.speaking;
-        this.text = this.speechSynthesisService.getText();
+        this.ngZone.run(() => {
+          this.text = value.text;
+          this.isSpeaking = value.speaking;
+        });
       });
   }
 
