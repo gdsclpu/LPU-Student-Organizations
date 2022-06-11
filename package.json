@@ -1,6 +1,6 @@
 {
-  "name": "mdb5-angular-ui-kit-pro-advanced",
-  "version": "2.2.0",
+  "name": "so-lpu",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

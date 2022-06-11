@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mdb5-angular-ui-kit-pro-advanced": {
+    "so-lpu": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mdb5-angular-ui-kit-pro-advanced",
+            "outputPath": "dist/so-lpu",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -75,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "mdb5-angular-ui-kit-pro-advanced:build:production"
+              "browserTarget": "so-lpu:build:production"
             },
             "development": {
-              "browserTarget": "mdb5-angular-ui-kit-pro-advanced:build:development"
+              "browserTarget": "so-lpu:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -86,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mdb5-angular-ui-kit-pro-advanced:build"
+            "browserTarget": "so-lpu:build"
           }
         },
         "test": {
@@ -107,7 +107,7 @@
           "options": {
             "prerender": false,
             "ssr": false,
-            "browserTarget": "mdb5-angular-ui-kit-pro-advanced:build:production",
+            "browserTarget": "so-lpu:build:production",
             "firebaseProject": "so-lpu",
             "firebaseHostingSite": "so-lpu"
           }
@@ -115,5 +115,5 @@
       }
     }
   },
-  "defaultProject": "mdb5-angular-ui-kit-pro-advanced"
+  "defaultProject": "so-lpu"
 }

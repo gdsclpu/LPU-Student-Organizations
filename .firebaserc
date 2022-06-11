@@ -1,13 +1,4 @@
 {
-  "targets": {
-    "so-lpu": {
-      "hosting": {
-        "mdb5-angular-ui-kit-pro-advanced": [
-          "lpu-so"
-        ]
-      }
-    }
-  },
   "projects": {
     "default": "so-lpu"
   }
