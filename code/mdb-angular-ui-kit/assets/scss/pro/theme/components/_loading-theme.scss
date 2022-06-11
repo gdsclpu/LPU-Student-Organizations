@@ -1,7 +1,0 @@
-@mixin mdb-loading-theme($theme) {
-  $primary: map-get($theme, primary);
-
-  .loading-spinner {
-    color: $primary;
-  }
-}

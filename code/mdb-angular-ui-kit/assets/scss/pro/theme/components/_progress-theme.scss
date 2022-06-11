@@ -1,7 +1,0 @@
-@mixin mdb-progress-theme($theme) {
-  $primary: map-get($theme, primary);
-
-  .progress-bar {
-    background-color: $primary;
-  }
-}
