@@ -63,8 +63,21 @@ export class AuthService {
     this.auth
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        this.router.navigate(['/']);
+        this.speechSynthesisService.speak({
+          text: 'Successfully Logged In!. Welcome Back!',
+        });
+        this.notificationRef = this.notificationService.open(ToastComponent, {
+          data: {
+            text: 'Successfully Logged In!. Welcome Back!',
+            type: 'success',
+          },
+          position: 'top-right',
+          delay: 5000,
+          autohide: true,
+          stacking: true,
+        });
         this.authStatusListener.next(true);
+        this.router.navigate(['/']);
       })
       .catch((error) => {
         this.speechSynthesisService.speak({
