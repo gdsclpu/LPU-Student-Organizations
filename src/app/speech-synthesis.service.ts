@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Injectable, Injector } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { SpeechRecognitionService } from './speech-recognition.service';
 
 export interface IArgs {
   voice?: null | any;
@@ -23,7 +24,7 @@ export class SpeechSynthesisService {
   private synthesisStateListener = new Subject<ISpeechSynthesis>();
   private text: string = '';
 
-  constructor() {
+  constructor(private injector: Injector) {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       this.supported = true;
     }
@@ -70,11 +71,13 @@ export class SpeechSynthesisService {
 
     utterance.text = text;
     utterance.voice = voice;
-    utterance.onend = this.handleEnd;
     utterance.rate = rate;
     utterance.pitch = pitch;
     utterance.volume = volume;
-    window.speechSynthesis.speak(utterance);
+    utterance.onend = this.handleEnd;
+    if (this.speaking) {
+      window.speechSynthesis.speak(utterance);
+    }
   };
 
   cancel = (): void => {
