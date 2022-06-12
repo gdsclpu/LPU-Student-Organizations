@@ -21,7 +21,7 @@ export class VoiceAssistantComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.speechRecognitionService.init();
+    this.speechRecognitionService.init();
     this.speechRecognitionService
       .getSpeechStateListener()
       .subscribe((value: boolean) => {

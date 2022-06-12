@@ -21,6 +21,7 @@ export class OrganisationsComponent implements OnInit {
     private organisationsService: OrganisationsService,
     private ngZone: NgZone
   ) {
+    this.organisationsService.init();
     this.ngZone.run(() => {
       this.organisationsService
         .getOrganisationsStateListener()
