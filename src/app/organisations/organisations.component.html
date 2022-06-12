@@ -17,7 +17,7 @@
         <div class="card-header">
           <div class="d-flex justify-content-center mx-auto bg-white">
             <img
-              src="{{ organisation['Logo'] }}"
+              src="{{organisation['Logo'] ? organisation['Logo'] : 'assets/img/org.png'}}"
               alt="avatar"
               class="rounded-circle img-fluid"
               style="width: 80px; height: 80px"
@@ -34,7 +34,7 @@
             </p>
             <div>
               <img
-                src="{{ organisation['Student Image'] }}"
+                src="{{organisation['Student Image'] ? organisation['Student Image'] : 'assets/img/Avatar.png'}}"
                 alt="img"
                 class="rounded-circle"
                 width="25px"
@@ -44,7 +44,7 @@
             </div>
             <div>
               <img
-                src="{{ organisation['Facilitator Image'] }}"
+                src="{{organisation['Facilitator Image'] ? organisation['Facilitator Image'] : 'assets/img/Avatar.png'}}"
                 alt="img"
                 class="rounded-circle"
                 width="25px"
@@ -58,28 +58,34 @@
           <div class="d-flex justify-content-center">
             <div class="row d-inline">
               <a
-                href="{{ organisation['Facebook'] }}"
+                href="mailto:{{organisation['Email'] ? organisation['Email'] : 'soc.dsa@lpu.co.in'}}"
+                class="text-dark"
+                target="_blank"
+                ><i class="fa fa-envelope"></i>
+              </a>
+              <a
+                href="{{organisation['Facebook'] ? organisation['Facebook'] : 'http://facebook.com/'}}"
                 class="text-dark"
                 target="_blank"
                 ><i class="col fa-brands fa-facebook-f"></i
               ></a>
               <a
-                href="{{ organisation['LinkedIn'] }}"
+                href="{{organisation['Instagram'] ? organisation['Instagram'] : 'http://instagram.com/'}}"
+                class="text-dark"
+                target="_blank"
+                ><i class="col fa-brands fa-instagram"></i
+              ></a>
+              <a
+                href="{{organisation['LinkedIn'] ? organisation['LinkedIn'] : 'http://linkedIn.com/'}}"
                 class="text-dark"
                 target="_blank"
                 ><i class="col fa-brands fa-linkedin-in"></i
               ></a>
               <a
-                href="{{ organisation['Email'] }}"
+                href="{{organisation['Website'] ? organisation['Website'] : 'http://lpu.in/'}}"
                 class="text-dark"
                 target="_blank"
-                ><i class="col fa-brands fa-envelope"></i
-              ></a>
-              <a
-                href="{{ organisation['Instagram'] }}"
-                class="text-dark"
-                target="_blank"
-                ><i class="col fa-brands fa-instagram"></i
+                ><i class="fa fa-globe"></i
               ></a>
             </div>
           </div>
