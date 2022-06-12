@@ -51,6 +51,7 @@ import { SignupComponent } from './signup/signup.component';
 import { VoiceAssistantComponent } from './voice-assistant/voice-assistant.component';
 import { ToastComponent } from './toast/toast.component';
 import { ModalComponent } from './modal/modal.component';
+import { OrganisationsComponent } from './organisations/organisations.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { ModalComponent } from './modal/modal.component';
     VoiceAssistantComponent,
     ToastComponent,
     ModalComponent,
+    OrganisationsComponent,
   ],
   imports: [
     BrowserModule,

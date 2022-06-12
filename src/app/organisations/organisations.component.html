@@ -1,0 +1,99 @@
+<div>
+  <h2 class="text-center text-warning">
+    Student
+    <span class="text-dark"> Organisations </span>
+  </h2>
+  <hr class="my-4" />
+  <div *ngIf="isLoading" class="row my-4">
+    <h1 class="text-center my-5">Loading...</h1>
+  </div>
+  <div *ngIf="!isLoading" class="row my-4">
+    <div *ngFor="let organisation of organisations" class="col-md-3 my-2">
+      <div
+        class="card rounded-6"
+        (click)="showDetails(organisation)"
+        style="cursor: pointer"
+      >
+        <div class="card-header">
+          <div class="d-flex justify-content-center mx-auto bg-white">
+            <img
+              src="{{ organisation['Logo'] }}"
+              alt="avatar"
+              class="rounded-circle img-fluid"
+              style="width: 80px; height: 80px"
+            />
+          </div>
+          <h3 class="text-center small mt-5 fw-bold">
+            {{ organisation["Organization Name"] }}
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <p class="small bg-primary rounded-3 text-center text-white">
+              {{ organisation["Category"] }}
+            </p>
+            <div>
+              <img
+                src="{{ organisation['Student Image'] }}"
+                alt="img"
+                class="rounded-circle"
+                width="25px"
+                height="25px"
+              />
+              CEO : {{ organisation["Student"] }}
+            </div>
+            <div>
+              <img
+                src="{{ organisation['Facilitator Image'] }}"
+                alt="img"
+                class="rounded-circle"
+                width="25px"
+                height="25px"
+              />
+              Facilitator : {{ organisation["Facilitator"] }}
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-center">
+            <div class="row d-inline">
+              <a
+                href="{{ organisation['Facebook'] }}"
+                class="text-dark"
+                target="_blank"
+                ><i class="col fa-brands fa-facebook-f"></i
+              ></a>
+              <a
+                href="{{ organisation['LinkedIn'] }}"
+                class="text-dark"
+                target="_blank"
+                ><i class="col fa-brands fa-linkedin-in"></i
+              ></a>
+              <a
+                href="{{ organisation['Email'] }}"
+                class="text-dark"
+                target="_blank"
+                ><i class="col fa-brands fa-envelope"></i
+              ></a>
+              <a
+                href="{{ organisation['Instagram'] }}"
+                class="text-dark"
+                target="_blank"
+                ><i class="col fa-brands fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-100 d-flex align-items-center justify-content-around mt-5">
+    <button class="btn btn-primary" [disabled]="start == 0" (click)="prev()">
+      Prev
+    </button>
+
+    <button class="btn btn-primary" [disabled]="end >= length" (click)="next()">
+      Next
+    </button>
+  </div>
+</div>

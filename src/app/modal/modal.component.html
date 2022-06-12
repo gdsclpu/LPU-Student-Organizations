@@ -1,16 +1,18 @@
 <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLabel">Club Name</h5>
-<button
+  <h5 class="modal-title" id="exampleModalLabel">
+    {{ organisation["Organization Name"] }}
+  </h5>
+  <button
     type="button"
     class="btn-close"
     aria-label="Close"
     (click)="modalRef.close()"
-></button>
+  ></button>
 </div>
 <div class="modal-body">
-    <h4>Purpose of organization:</h4>
-    <p>Data</p>
+  <h4>Purpose of organization:</h4>
+  <p>{{ organisation["Purpose Of Organization"] }}</p>
 
-    <h4>Organization Activity:</h4>
-    <p>Data</p>
+  <h4>Organization Activity:</h4>
+  <p>{{ organisation["Organization Activity"] }}</p>
 </div>
