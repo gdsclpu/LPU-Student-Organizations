@@ -3,20 +3,16 @@
   <table class="table align-middle mb-0 bg-white mt-5">
     <thead class="bg-light">
       <tr>
-        <th>Policy ID</th>
-        <th>Policy Name</th>
-        <th>Policy Scope</th>
-        <th>Policy Department</th>
-        <th>Policy URL</th>
+        <th class="fw-bold mb-1 text-primary">Policy Name</th>
+        <th class="fw-bold mb-1 text-primary">Policy Scope</th>
+        <th class="fw-bold mb-1 text-primary">Policy Department</th>
+        <th class="fw-bold mb-1 text-primary">Policy URL</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let policy of policies">
         <td>
-          <p class="text-muted mb-0">{{ policy["ID"] }}</p>
-        </td>
-        <td>
-          <p class="fw-bold mb-1">J{{ policy["Policy Name"] }}</p>
+          <p class="fw-bold mb-1">{{ policy["Policy Name"] }}</p>
         </td>
         <td>{{ policy["Policy Scope"] }}</td>
         <td>
