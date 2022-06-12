@@ -52,6 +52,8 @@ import { VoiceAssistantComponent } from './voice-assistant/voice-assistant.compo
 import { ToastComponent } from './toast/toast.component';
 import { ModalComponent } from './modal/modal.component';
 import { OrganisationsComponent } from './organisations/organisations.component';
+import { PoliciesComponent } from './policies/policies.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,8 @@ import { OrganisationsComponent } from './organisations/organisations.component'
     ToastComponent,
     ModalComponent,
     OrganisationsComponent,
+    PoliciesComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
