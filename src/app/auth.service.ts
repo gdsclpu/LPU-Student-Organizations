@@ -59,6 +59,105 @@ export class AuthService {
     return this.currentUser;
   }
 
+  googleLogin() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return this.oAuthLogin(provider)
+      .then(async (user: any) => {
+        let document: number = 0;
+        await this.firestore
+          .collection('users')
+          .doc(user.user.uid)
+          .get()
+          .forEach(async (doc) => {
+            if (doc.exists) {
+              document += 1;
+            }
+          });
+
+        if (document === 0) {
+          this.firestore
+            .collection('users')
+            .doc(user.user.uid)
+            .set({
+              email: user.user.email,
+              regNo: null,
+              name: user.user.displayName,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            })
+            .then(() => {
+              this.speechSynthesisService.speak({
+                text: 'Successfully Logged In!. Welcome Back!',
+              });
+              this.notificationRef = this.notificationService.open(
+                ToastComponent,
+                {
+                  data: {
+                    text: 'Successfully Logged In!. Welcome Back!',
+                    type: 'success',
+                  },
+                  position: 'top-right',
+                  delay: 5000,
+                  autohide: true,
+                  stacking: true,
+                }
+              );
+              this.isLoggedIn = true;
+              this.authStatusListener.next(true);
+              this.router.navigate(['/']);
+            })
+            .catch((error: any) => {
+              this.speechSynthesisService.speak({
+                text: 'Something went wrong!',
+              });
+              this.notificationRef = this.notificationService.open(
+                ToastComponent,
+                {
+                  data: { text: 'Something went wrong!', type: 'danger' },
+                  position: 'top-right',
+                  delay: 5000,
+                  autohide: true,
+                  stacking: true,
+                }
+              );
+            });
+        } else {
+          this.speechSynthesisService.speak({
+            text: 'Successfully Logged In!. Welcome Back!',
+          });
+          this.notificationRef = this.notificationService.open(ToastComponent, {
+            data: {
+              text: 'Successfully Logged In!. Welcome Back!',
+              type: 'success',
+            },
+            position: 'top-right',
+            delay: 5000,
+            autohide: true,
+            stacking: true,
+          });
+          this.isLoggedIn = true;
+          this.authStatusListener.next(true);
+          this.router.navigate(['/']);
+        }
+      })
+      .catch((error: any) => {
+        this.speechSynthesisService.speak({
+          text: error.message,
+        });
+        this.notificationRef = this.notificationService.open(ToastComponent, {
+          data: { text: error.message, type: 'danger' },
+          position: 'top-right',
+          delay: 5000,
+          autohide: true,
+          stacking: true,
+        });
+      });
+  }
+
+  private oAuthLogin(provider: any) {
+    return this.auth.signInWithPopup(provider);
+  }
+
   login(email: string, password: string) {
     this.auth
       .signInWithEmailAndPassword(email, password)
@@ -93,59 +192,31 @@ export class AuthService {
       });
   }
 
-  async register(email: string, password: string, regNo: Number) {
-    const checkRegNo = await this.firestore
-      .collection('users')
-      .ref.where('regNo', '==', regNo)
-      .get();
-    if (checkRegNo.empty) {
-      this.auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(async () => {
-          const user = await this.auth.currentUser;
-          this.firestore
-            .collection('users')
-            .doc(user?.uid)
-            .set({
-              email,
-              regNo,
-              name: user?.displayName,
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-            })
-            .then(() => {
-              this.speechSynthesisService.speak({
-                text: 'Successfully Registered!. You are now Logged In!. Welcome here!',
-              });
-              this.notificationRef = this.notificationService.open(
-                ToastComponent,
-                {
-                  data: {
-                    text: 'Successfully Registered!. You are now Logged In!. Welcome here!',
-                    type: 'success',
-                  },
-                  position: 'top-right',
-                  delay: 5000,
-                  autohide: true,
-                  stacking: true,
-                }
-              );
-
-              this.router.navigate(['/']);
-              this.authStatusListener.next(true);
-            });
-        })
-        .catch((error) => {
-          if (error.code) {
+  register(email: string, password: string) {
+    this.auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(async () => {
+        const user = await this.auth.currentUser;
+        this.firestore
+          .collection('users')
+          .doc(user?.uid)
+          .set({
+            email,
+            regNo: null,
+            name: user?.displayName,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          })
+          .then(() => {
             this.speechSynthesisService.speak({
-              text: 'This email is already registered!',
+              text: 'Successfully Registered!. You are now Logged In!. Welcome here!',
             });
             this.notificationRef = this.notificationService.open(
               ToastComponent,
               {
                 data: {
-                  text: 'This email is already registered!',
-                  type: 'danger',
+                  text: 'Successfully Registered!. You are now Logged In!. Welcome here!',
+                  type: 'success',
                 },
                 position: 'top-right',
                 delay: 5000,
@@ -153,37 +224,39 @@ export class AuthService {
                 stacking: true,
               }
             );
-          } else {
-            this.speechSynthesisService.speak({
-              text: 'Something went wrong!',
-            });
-            this.notificationRef = this.notificationService.open(
-              ToastComponent,
-              {
-                data: { text: 'Something went wrong!', type: 'danger' },
-                position: 'top-right',
-                delay: 5000,
-                autohide: true,
-                stacking: true,
-              }
-            );
-          }
-        });
-    } else {
-      this.speechSynthesisService.speak({
-        text: 'This registration number is already present!',
+
+            this.router.navigate(['/']);
+            this.authStatusListener.next(true);
+          });
+      })
+      .catch((error) => {
+        if (error.code) {
+          this.speechSynthesisService.speak({
+            text: 'This email is already registered!',
+          });
+          this.notificationRef = this.notificationService.open(ToastComponent, {
+            data: {
+              text: 'This email is already registered!',
+              type: 'danger',
+            },
+            position: 'top-right',
+            delay: 5000,
+            autohide: true,
+            stacking: true,
+          });
+        } else {
+          this.speechSynthesisService.speak({
+            text: 'Something went wrong!',
+          });
+          this.notificationRef = this.notificationService.open(ToastComponent, {
+            data: { text: 'Something went wrong!', type: 'danger' },
+            position: 'top-right',
+            delay: 5000,
+            autohide: true,
+            stacking: true,
+          });
+        }
       });
-      this.notificationRef = this.notificationService.open(ToastComponent, {
-        data: {
-          text: 'This registration number is already present!',
-          type: 'danger',
-        },
-        position: 'top-right',
-        delay: 5000,
-        autohide: true,
-        stacking: true,
-      });
-    }
   }
 
   logout() {
