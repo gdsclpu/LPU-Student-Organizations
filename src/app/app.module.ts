@@ -49,6 +49,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { VoiceAssistantComponent } from './voice-assistant/voice-assistant.component';
+import { ToastComponent } from './toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { VoiceAssistantComponent } from './voice-assistant/voice-assistant.compo
     LoginComponent,
     SignupComponent,
     VoiceAssistantComponent,
+    ToastComponent,
   ],
   imports: [
     BrowserModule,
