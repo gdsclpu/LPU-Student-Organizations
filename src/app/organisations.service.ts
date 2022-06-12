@@ -43,6 +43,20 @@ export class OrganisationsService {
         );
       });
   }
+  init() {
+    this.firestore
+      .collection('organisations')
+      .snapshotChanges()
+      .subscribe((organisations: any) => {
+        organisations.forEach((organisation: any) => {
+          this.organisations.push(organisation.payload.doc.data());
+        });
+        this.isLoading = false;
+        this.organisationsStateListener.next(
+          this.organisations.slice(this.start, this.end)
+        );
+      });
+  }
 
   getOrganisations() {
     return this.organisations;
