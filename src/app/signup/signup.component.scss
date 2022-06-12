@@ -1,23 +1,12 @@
 .signup-container {
+  background: url("https://firebasestorage.googleapis.com/v0/b/so-lpu.appspot.com/o/assets%2FBg.png?alt=media&token=6ae13a3f-60a2-470b-ae72-7a0fadb2d9bd");
+  background-size: cover;
+  background-position: center;
   .close-btn {
     right: 80px;
     top: 50px;
     font-size: 1.5rem;
     cursor: pointer;
-  }
-
-  .signup-form {
-    width: 350px;
-    height: 400px;
-    border: 1px solid #ccc;
-
-    .user-icon {
-      font-size: 4.5rem;
-      margin: 0 auto;
-      top: -40px;
-    }
-    .signup-btn {
-      width: 90%;
-    }
+    color: #000;
   }
 }
