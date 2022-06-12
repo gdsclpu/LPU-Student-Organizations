@@ -93,24 +93,97 @@ export class AuthService {
       });
   }
 
-  register(email: string, password: string, regNo: Number) {
-    this.auth.createUserWithEmailAndPassword(email, password).then(async () => {
-      const user = await this.auth.currentUser;
-      this.firestore
-        .collection('users')
-        .doc(user?.uid)
-        .set({
-          email,
-          regNo,
-          name: user?.displayName,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  async register(email: string, password: string, regNo: Number) {
+    const checkRegNo = await this.firestore
+      .collection('users')
+      .ref.where('regNo', '==', regNo)
+      .get();
+    if (checkRegNo.empty) {
+      this.auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(async () => {
+          const user = await this.auth.currentUser;
+          this.firestore
+            .collection('users')
+            .doc(user?.uid)
+            .set({
+              email,
+              regNo,
+              name: user?.displayName,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            })
+            .then(() => {
+              this.speechSynthesisService.speak({
+                text: 'Successfully Registered!. You are now Logged In!. Welcome here!',
+              });
+              this.notificationRef = this.notificationService.open(
+                ToastComponent,
+                {
+                  data: {
+                    text: 'Successfully Registered!. You are now Logged In!. Welcome here!',
+                    type: 'success',
+                  },
+                  position: 'top-right',
+                  delay: 5000,
+                  autohide: true,
+                  stacking: true,
+                }
+              );
+
+              this.router.navigate(['/']);
+              this.authStatusListener.next(true);
+            });
         })
-        .then(() => {
-          this.router.navigate(['/']);
-          this.authStatusListener.next(true);
+        .catch((error) => {
+          if (error.code) {
+            this.speechSynthesisService.speak({
+              text: 'This email is already registered!',
+            });
+            this.notificationRef = this.notificationService.open(
+              ToastComponent,
+              {
+                data: {
+                  text: 'This email is already registered!',
+                  type: 'danger',
+                },
+                position: 'top-right',
+                delay: 5000,
+                autohide: true,
+                stacking: true,
+              }
+            );
+          } else {
+            this.speechSynthesisService.speak({
+              text: 'Something went wrong!',
+            });
+            this.notificationRef = this.notificationService.open(
+              ToastComponent,
+              {
+                data: { text: 'Something went wrong!', type: 'danger' },
+                position: 'top-right',
+                delay: 5000,
+                autohide: true,
+                stacking: true,
+              }
+            );
+          }
         });
-    });
+    } else {
+      this.speechSynthesisService.speak({
+        text: 'This registration number is already present!',
+      });
+      this.notificationRef = this.notificationService.open(ToastComponent, {
+        data: {
+          text: 'This registration number is already present!',
+          type: 'danger',
+        },
+        position: 'top-right',
+        delay: 5000,
+        autohide: true,
+        stacking: true,
+      });
+    }
   }
 
   logout() {
