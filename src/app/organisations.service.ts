@@ -29,20 +29,7 @@ export class OrganisationsService {
   isLoading: boolean = true;
   private organisationsStateListener = new Subject<IOrganisations[]>();
 
-  constructor(private firestore: AngularFirestore) {
-    this.firestore
-      .collection('organisations')
-      .snapshotChanges()
-      .subscribe((organisations: any) => {
-        organisations.forEach((organisation: any) => {
-          this.organisations.push(organisation.payload.doc.data());
-        });
-        this.isLoading = false;
-        this.organisationsStateListener.next(
-          this.organisations.slice(this.start, this.end)
-        );
-      });
-  }
+  constructor(private firestore: AngularFirestore) {}
   init() {
     this.firestore
       .collection('organisations')
