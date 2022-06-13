@@ -12,12 +12,16 @@
       <div
         class="card rounded-6"
         (click)="showDetails(organisation)"
-        style="cursor: pointer"
+        style="cursor: pointer; height: 380px !important"
       >
         <div class="card-header">
           <div class="d-flex justify-content-center mx-auto bg-white">
             <img
-              src="{{organisation['Logo'] ? organisation['Logo'] : 'assets/img/org.png'}}"
+              src="{{
+                organisation['Logo']
+                  ? organisation['Logo']
+                  : 'assets/img/org.png'
+              }}"
               alt="avatar"
               class="rounded-circle img-fluid"
               style="width: 80px; height: 80px"
@@ -34,7 +38,11 @@
             </p>
             <div>
               <img
-                src="{{organisation['Student Image'] ? organisation['Student Image'] : 'assets/img/Avatar.png'}}"
+                src="{{
+                  organisation['Student Image']
+                    ? organisation['Student Image']
+                    : 'assets/img/Avatar.png'
+                }}"
                 alt="img"
                 class="rounded-circle"
                 width="25px"
@@ -44,7 +52,11 @@
             </div>
             <div>
               <img
-                src="{{organisation['Facilitator Image'] ? organisation['Facilitator Image'] : 'assets/img/Avatar.png'}}"
+                src="{{
+                  organisation['Facilitator Image']
+                    ? organisation['Facilitator Image']
+                    : 'assets/img/Avatar.png'
+                }}"
                 alt="img"
                 class="rounded-circle"
                 width="25px"
@@ -58,31 +70,51 @@
           <div class="d-flex justify-content-center">
             <div class="row d-inline">
               <a
-                href="mailto:{{organisation['Email'] ? organisation['Email'] : 'soc.dsa@lpu.co.in'}}"
+                href="mailto:{{
+                  organisation['Email']
+                    ? organisation['Email']
+                    : 'soc.dsa@lpu.co.in'
+                }}"
                 class="text-dark"
                 target="_blank"
                 ><i class="fa fa-envelope"></i>
               </a>
               <a
-                href="{{organisation['Facebook'] ? organisation['Facebook'] : 'http://facebook.com/'}}"
+                href="{{
+                  organisation['Facebook']
+                    ? organisation['Facebook']
+                    : 'http://facebook.com/'
+                }}"
                 class="text-dark"
                 target="_blank"
                 ><i class="col fa-brands fa-facebook-f"></i
               ></a>
               <a
-                href="{{organisation['Instagram'] ? organisation['Instagram'] : 'http://instagram.com/'}}"
+                href="{{
+                  organisation['Instagram']
+                    ? organisation['Instagram']
+                    : 'http://instagram.com/'
+                }}"
                 class="text-dark"
                 target="_blank"
                 ><i class="col fa-brands fa-instagram"></i
               ></a>
               <a
-                href="{{organisation['LinkedIn'] ? organisation['LinkedIn'] : 'http://linkedIn.com/'}}"
+                href="{{
+                  organisation['LinkedIn']
+                    ? organisation['LinkedIn']
+                    : 'http://linkedIn.com/'
+                }}"
                 class="text-dark"
                 target="_blank"
                 ><i class="col fa-brands fa-linkedin-in"></i
               ></a>
               <a
-                href="{{organisation['Website'] ? organisation['Website'] : 'http://lpu.in/'}}"
+                href="{{
+                  organisation['Website']
+                    ? organisation['Website']
+                    : 'http://lpu.in/'
+                }}"
                 class="text-dark"
                 target="_blank"
                 ><i class="fa fa-globe"></i
@@ -97,6 +129,11 @@
     <button class="btn btn-primary" [disabled]="start == 0" (click)="prev()">
       Prev
     </button>
+
+    <p class="lead small">
+      showing <strong>{{ start + 1 }} - {{ end }}</strong> of
+      <strong>{{ length }}</strong> organisations
+    </p>
 
     <button class="btn btn-primary" [disabled]="end >= length" (click)="next()">
       Next
