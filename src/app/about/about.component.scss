@@ -1,3 +1,56 @@
-body {
-  background-color: hsl(0, 0%, 98%);
+$title-color: #212529;
+$text-color: #2d3436;
+$background-color: #edf0f8;
+
+h2 {
+	font-size: 2.2rem;
+  color: $title-color;
 }
+
+.lead {
+  font-weight: 400;
+}
+
+p {
+	color: $text-color;
+	font-size: 18.5px;
+}
+
+.achieving_section {
+	background-color: $background-color;
+	margin-bottom: 5rem;
+}
+
+.img_container {
+	position: relative;
+}
+
+.pattern {
+	width: 400px;
+	height: 350px;
+	z-index: -1;
+	position: absolute;
+	top: -20px;
+	left: -30px;
+	color: #f0f0f0;
+}
+
+.mission_section {
+	margin-bottom: 5rem;
+	margin-top: 5rem;
+}
+
+.vision_section {
+	margin-bottom: 5rem;
+}
+
+.about-section {
+  margin-top: 2rem;
+}
+
+// .about-section {
+//   @media screen and (max-width: 768px) {
+//     margin: inherit 2rem;
+//   };
+    
+// }
