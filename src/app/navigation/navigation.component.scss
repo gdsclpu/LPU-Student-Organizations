@@ -1,9 +1,11 @@
 nav {
+  @media only screen and (min-width: 992px) {
+    padding-bottom: 1rem;
+  }
+
   .logo {
     height: 80px;
   }
-
-  ul {
     li {
       a {
         position: relative;
@@ -19,6 +21,11 @@ nav {
           background-color: #017bf5;
           transition: 0.3s linear;
           opacity: 0;
+
+          @media only screen and (max-width:992px) {
+            top: 0;
+          }
+
         }
         &.active::before {
           opacity: 1;
@@ -28,5 +35,10 @@ nav {
         }
       }
     }
+  }
+
+.login_btn {
+  @media only screen and (max-width: 992px) {
+    margin-bottom: 0.6rem;
   }
 }
